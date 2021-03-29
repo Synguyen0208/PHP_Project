@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/">
+    <title>Document</title>
+    <style>
+        .star {
+    visibility:hidden;
+    font-size:30px;
+    cursor:pointer;
+}
+.star:before {
+   content: "\2605";
+   position: absolute;
+   visibility:visible;
+}
+.star:checked:before {
+   content: "\2606";
+   position: absolute;
+}
+    </style>
+</head>
+<body>
+    <input class="star" type="checkbox" title="bookmark page"><br/><br/>
+    <input class="star" type="checkbox" title="bookmark page"><br/><br/>
+<input class="star" type="checkbox" title="bookmark page" checked><br/><br/>
+</body>
+</html>
