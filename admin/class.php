@@ -2,9 +2,9 @@
 
 class product{
     function product(){}
-    function  insertData($name, $price, $discount, $title, $ED, $MGF, $image, $mass, $industry_id, $id_com, $quantity){
+    function  insertData($name, $price, $discount, $title, $ED, $MFG, $image, $mass, $industry_id, $id_com, $quantity){
         $sql="insert into product(name, price, discount, title, ED, MFG, image, mass, industry_id, id_com, quantity)
-        values('$name', $price, $discount, '$title', '$ED', '$MGF', '$image', $mass, $industry_id, $id_com, $quantity);";
+        values('$name', $price, $discount, '$title', '$ED', '$MFG', '$image', $mass, $industry_id, $id_com, $quantity);";
 
         $result=$GLOBALS['conn']->execute($sql);
         if(!$result)
@@ -13,8 +13,7 @@ class product{
         "<script>alert('Them thanh cong!')</script>";
     }
     function update($id, $name, $price, $discount, $title, $ED, $MGF, $image, $mass, $industry_id, $id_com, $quantity){
-        $sql="Update product set name='$name', price=$price, discount=$discount, title='$title', ED='$ED', MGF='$MGF', image='$image', mass=$mass, industry_id=$industry_id, id_com=$id_com, quantity=$quantity where id=$id";
-        echo $sql;
+        $sql="Update product set name='$name', price=$price, discount=$discount, title='$title', ED='$ED', MFG='$MGF', image='$image', mass=$mass, industry_id=$industry_id, id_com=$id_com, quantity=$quantity where id=$id";
         $result=$GLOBALS['conn']->execute($sql);
         if($result)
         echo "<script>alert('Cap nhat thanh cong!')</script>";

@@ -8,8 +8,8 @@ function change(k){
             document.getElementById('price').value=product[i]['price'];
             document.getElementById('discount').value=product[i]['discount'];
             document.getElementById('quantity').value=product[i]['quantity'];
-            document.getElementById('imgadd').value=product[i]['image'];
-            document.getElementById('imgadd').src=product[i]['image'];
+            document.getElementById('image').value=product[i]['image'];
+            document.getElementById('img').src=product[i]['image'];
             
             document.getElementById('MFG').value=product[i]['MFG'];
             document.getElementById('ED').value=product[i]['ED'];

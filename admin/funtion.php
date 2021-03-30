@@ -101,6 +101,7 @@ function add_product(){
 
 function update_product(){
     $id=$_POST['idd'];
+    $imgadd=$_POST['image'];
     $name=$_POST['name-productt'];
     $idCom;
     $mass=$_POST['mass-productt'];
@@ -137,13 +138,13 @@ function update_product(){
     else{
         $idCom=$company;
     }   
-    $file_name = $_FILES['img-productt']['name'];
+    $file_name = $_FILES['image-productt']['name'];
     $file_ext=strtolower(end(explode('.',$file_name)));
     if(!empty($file_ext)){
-        $file_name = $_FILES['img-productt']['name'];
+        $file_name = $_FILES['image-productt']['name'];
         
-        $file_size = $_FILES['img-productt']['size'];
-        $file_tmp = $_FILES['img-productt']['tmp_name'];
+        $file_size = $_FILES['image-productt']['size'];
+        $file_tmp = $_FILES['image-productt']['tmp_name'];
         $file_ext=strtolower(end(explode('.',$file_name)));
         
         $expensions= array("jpeg","jpg","png");
@@ -164,7 +165,7 @@ function update_product(){
     }
     else{
         $new=new product;
-        $new->update($id, $name, $price, $priceDiscount, $til, $ED, $MGF, $_POST['imgadd'], $mass, $category, $idCom, $quan);
+        $new->update($id, $name, $price, $priceDiscount, $til, $ED, $MGF, $imgadd, $mass, $category, $idCom, $quan);
     }
 }
 function delete_product(){
