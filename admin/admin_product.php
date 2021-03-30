@@ -1,5 +1,7 @@
 <?php
 require "funtion.php";
+
+
 session_start();
 $conn=new connect_database("php_project");
 // error_reporting(0);
@@ -177,6 +179,7 @@ $conn=new connect_database("php_project");
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Discount</th>
+                                                <th>Mass</th>
                                                 <th>Quantity</th>
                                                 <th>Title</th>
                                                 <th>Image</th>
@@ -192,6 +195,7 @@ $conn=new connect_database("php_project");
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Discount</th>
+                                                <th>Mass</th>
                                                 <th>Quantity</th>
                                                 <th>Title</th>
                                                 <th>Image</th>
@@ -204,8 +208,8 @@ $conn=new connect_database("php_project");
                                         </tfoot>
                                         <tbody>
                                         <?php 
-                                        $sql="SELECT pro.id, pro.name, price, discount, title, ED, MFG, image, mass, industry, com.name as company FROM ((product pro INNER JOIN product_industry ind ON pro.industry_id=ind.id) INNER JOIN company com on pro.id_com=com.id)";
-                                            $result = $GLOBALS['conn']->execute($sql);
+                                            $data=new product;
+                                            $result = $data->getFullData();
                                             $arr=array();
                                             
                                             while ($row = mysqli_fetch_array($result)) {
@@ -213,13 +217,14 @@ $conn=new connect_database("php_project");
                                                     'id'=>$row['id'],
                                                     'name'=>$row['name'],
                                                     'price'=>$row['price'],
+                                                    'mass'=>$row['mass'],
                                                     'discount'=>$row['discount'],
                                                     'quantity'=>$row['quantity'],
                                                     'title'=>$row['title'],
                                                     'image'=>$row['image'],
                                                     'industry'=>$row['industry'],
                                                     'ED'=>$row['ED'],
-                                                    'MGF'=>$row['MGF'],
+                                                    'MFG'=>$row['MFG'],
                                                     'company'=>$row['company']
                                                 );
                                         ?>
@@ -232,6 +237,9 @@ $conn=new connect_database("php_project");
                                             </td>
                                             <td>
                                                 <?php echo $row['discount']?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['mass']?>
                                             </td>
                                             <td>
                                                 <?php echo $row['quantity']?>
@@ -249,7 +257,7 @@ $conn=new connect_database("php_project");
                                                 <?php echo $row['ED']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['MGF']?>
+                                                <?php echo $row['MFG']?>
                                             </td>
                                             <td>
                                                 <?php echo $row['company']?>
@@ -292,7 +300,7 @@ $conn=new connect_database("php_project");
 
             <div id="myModal" class="modal">
             <div class="modal-content">
-                <form method="POST" id="form" action="" enctype = "multipart/form-data">
+                <form method="POST" id="form" action="admin_product.php" enctype = "multipart/form-data">
                 <div class="modal-header">
                     <h1>Thêm sản phẩm</h1>
                 </div>
@@ -309,13 +317,12 @@ $conn=new connect_database("php_project");
                                      $result = $GLOBALS['conn']->execute($sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
-                                    <option value="<?php echo $row['industry']?>"><?php echo $row['industry']?></option>
+                                    <option value="<?php echo $row['id']?>"><?php echo $row['industry']?></option>
                                     <?php }?>
                                     <option value="Other">Other</option>
                                 </select><br>
-                                <div class="industry" id="input-industry" style="display:none">
-                                    <label for="">Nhập ngành sản phẩm</label><br>
-                                    <input type="text" name="name-industry" placeholder="Nhập ngành sả phẩm" required><br>
+                                <div class="industry" id="input-industry">
+                                    
                                 </div>
                                 <div class="in_price">
                                     <div>
@@ -331,34 +338,28 @@ $conn=new connect_database("php_project");
                                 </div>
                                 <label for="">Số lượng sản phẩm</label><br>
                                 <input type="number" min="0" name="quantity-product" placeholder="Nhập số lượng sản phẩm" required><br>
-                                <label for="">Chọn hình ảnh sản phẩm</label><br>
+                                <label for="">Khối lượng sản phẩm</label><br>
+                                <input type="number" min="0" name="mass-product" placeholder="Nhập khối lượng sản phẩm" required><br>
                                 <label for="">Ngày sản xuất</label>
                                 <input type="date" name="ED" id="" required><br>
                                 <label for="">Hạn sử dụng</label>
                                 <input type="date" name="MFG" id="" required><br>
-                                <label for="">Danh mục sản phẩm</label><br>
+                                <label for="">Công ty sản xuất</label><br>
                                 <select name="company" id="company" onchange="myFunction1()" >
                                     <?php 
                                      $sql="SELECT id, name from company;";
                                      $result = $GLOBALS['conn']->execute($sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
-                                    <option value="<?php echo $row['name']?>"><?php echo $row['name']?></option>
+                                    <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
                                     <?php }?>
                                     <option value="Other">Other</option>
                                 </select><br>
-                                <div class="input-company" id="input-company" style="display:none">
-                                    <label for="">Nhập tên công ty</label><br>
-                                    <input type="text" name="name-company" placeholder="Nhập tên công ty" required><br>
-                                    <label for="">Nhập địa chỉ công ty</label><br>
-                                    <input type="text" name="address-company" placeholder="Nhập địa chỉ công ty" required><br>
-                                    <label for="">Giám đốc công ty</label><br>
-                                    <input type="text" name="address-company" placeholder="Nhập địa chỉ công ty" required><br>
-                                    <label for="">Mã số thuế</label><br>
-                                    <input type="text" name="license-number" placeholder="Mã số thuế" required><br>
+                                <div class="input-company" id="input-company">
+                                   
                                 </div>
                                 
-                                <input type="file" name="img-product"><br>
+                                <input type="file" name="image-product"><br>
                                 <span><?php echo $_SESSION['err']?></span><br>
                                 <label for="">Mô tả sản phẩm</label><br>
                                 <textarea name="title" id="" cols="30" rows="10" required></textarea><br>
@@ -382,49 +383,70 @@ $conn=new connect_database("php_project");
                 <h1>Sửa sản phẩm</h1>
             </div>
             <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <label for="">ID sản phẩm chỉnh sửa</label><br>
-                            <input type="number" name="id" id="id" readonly=true>
-                            <label for="">Nhập tên sản phẩm</label><br>
-                            <input type="text" id="name" name="name-product1" placeholder="Nhập tên sản phẩm" required><br>
-                            <label for="">Danh mục sản phẩm</label><br>
-                            <select id="category" name="category1" id="">
-                                <option value="nam">Thời trang nam</option>
-                                <option value="nữ">Thời trang nữ</option>
-                                <option value="mới">Sản phẩm mới</option>
-                            </select><br>
-                            <div class="in_price">
-                                <div>
-                                    <label for="">Giá sản phẩm</label><br>
-                                    <input id='price' type="number" min="1" name="price-product1" placeholder="Nhập giá sản phẩm"
-                                        required>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <input type="number" id="idd" name="idd" readonly="true">
+                                <label for="">Nhập tên sản phẩm</label><br>
+                                <input type="text" id="name" name="name-productt" placeholder="Nhập tên sản phẩm" required><br>
+                                <label for="">Danh mục sản phẩm</label><br>
+                                <select name="industryy" id="industry" onchange="myFunction()" >
+                                    <?php 
+                                     $sql="SELECT id, industry from product_industry;";
+                                     $result = $GLOBALS['conn']->execute($sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                    <option value="<?php echo $row['id']?>"><?php echo $row['industry']?></option>
+                                    <?php }?>
+                                    <option value="Other">Other</option>
+                                </select><br>
+                                <div class="industry" id="input-industry">
+                                    
                                 </div>
-                                <div>
-                                    <label for="">Phần trăm giảm</label><br>
-                                    <input type="number" min="1" max="100" id="discount" name="discount-price-product1"
-                                        placeholder="Nhập phần trăm giảm" required>
+                                <div class="in_price">
+                                    <div>
+                                        <label for="">Giá sản phẩm</label><br>
+                                        <input type="number" id="price" min="1" name="price-productt"
+                                            placeholder="Nhập giá sản phẩm" required>
+                                    </div>
+                                    <div>
+                                        <label for="">Phần trăm giảm</label><br>
+                                        <input type="number" id="discount" min="1" max="100" name="discount-price-productt"
+                                            placeholder="Nhập phần trăm giảm" required>
+                                    </div>
                                 </div>
-                            </div>
-                            <label for="">Số lượng sản phẩm</label><br>
-                            <input type="number" min="0" id="quan" name="quantity-product1" placeholder="Nhập số lượng sản phẩm"
-                                required><br>
+                                <label for="">Số lượng sản phẩm</label><br>
+                                <input type="number" min="0" name="quantity-productt" id="quantity" placeholder="Nhập số lượng sản phẩm" required><br>
+                                <label for="">Khối lượng sản phẩm</label><br>
+                                <input type="number" min="0" name="mass-productt" id="mass" placeholder="Nhập khối lượng sản phẩm" required><br>
+                                <label for="">Ngày sản xuất</label>
+                                <input type="date" name="EDD" id="ED" required><br>
+                                <label for="">Hạn sử dụng</label>
+                                <input type="date" name="MFGG" id="MFG" required><br>
+                                <label for="">Công ty sản xuất</label><br>
+                                <select name="companyy" id="company" onchange="myFunction1()" >
+                                    <?php 
+                                     $sql="SELECT id, name from company;";
+                                     $result = $GLOBALS['conn']->execute($sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                    <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
+                                    <?php }?>
+                                    <option value="Other">Other</option>
+                                </select><br>
+                                <div class="input-company" id="input-company">
+                                   
+                                </div>
                                 
-                            <label for="">Chọn hình ảnh khác cho sản phẩm</label><br>
-                            <input type="file"  id="file" name="img-product1">
-                            <img src="" style="width: 5rem;margin-top:1rem" alt="" id="img">
-                            <input type="text" id="imgAdd" name="imgAdd" style="display: none">
-                            <br>
-                            <span>
-                                <?php echo $_SESSION['err']?>
-                            </span><br>
-                            <label for="">Mô tả sản phẩm</label><br>
-                            <textarea name="title1" id="title" cols="30" rows="10" required></textarea><br>
+                                <input type="file" name="image-productt"><br>
+                                <span><?php echo $_SESSION['err']?></span><br>
+                                <img src="" id="imgadd" name="imgadd" value="kk" alt=""><br>
+                                <label for="">Mô tả sản phẩm</label><br>
+                                <textarea name="titlee" id="title" cols="30" rows="10" required></textarea><br>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <div class="modal-footer">
                 <button type="submit" id="login" value="login" class="btn btn-primary btn-lg" name="log">
                     Sửa Sản Phẩm

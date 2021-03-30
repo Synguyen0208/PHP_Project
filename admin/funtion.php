@@ -1,5 +1,6 @@
 <?php
 error_reporting(0);
+require "class.php";
 session_start();
 $_SESSION['dem']=1;
 class connect_database{
@@ -32,27 +33,50 @@ class connect_database{
 $conn=new connect_database("php_project");
 
 function add_product(){
-    if(!empty($_POST['name-product'])&&!empty($_POST['price-product'])&&!empty($_POST['quantity-product'])&&!empty($_POST['title'])&&isset($_FILES['img-product'])){
+    if(isset($_FILES['image-product'])){
     $name=$_POST['name-product'];
-    $idCat;
+    $idCom;
+    $mass=$_POST['mass-product'];
     $category=$_POST['category'];
+    $company=$_POST['company'];
     $price=$_POST['price-product'];
     $priceDiscount=$_POST['discount-price-product'];
     $quan=$_POST['quantity-product'];
     $til=$_POST['title'];
-    if($category=="mới"){
-        $idCat=3;
+    $ED=$check=date("Y-m-d", strtotime( $_POST['ED']));
+    $MGF=$_POST['MFG'];
+    if($category=="Other"){
+        $name_cat=$_POST['name-industry'];
+        $newInd=new industry;
+        $newInd->insertData($name_cat);
+        $row2=mysqli_fetch_array($GLOBALS['conn']->execute("select max(id) from product_industry"));
+        $category=$row2['max(id)'];
+        echo $row2['maxid'];
     }
-    else if($category=="nam"){
-        $idCat=1;
+    if($company=="Other"){
+        if(isset($_POST['name-company'])&&isset($_POST['address-company'])&&isset($_POST['manager-company'])&&isset($_POST['license-number'])){
+            $name_com=$_POST['name-company'];
+            $address_com=$_POST['address-company'];
+            $manager_com=$_POST['manager-company'];
+            $license=$_POST['license-number'];
+            $newCom=new company;
+           
+            $newCom->insertData($name_com, $address_com, $manager_com, $license);
+            $row2=mysqli_fetch_array($GLOBALS['conn']->execute("select max(id) from company"));
+            $idCom=$row2['max(id)'];
+        }
+        
     }
-    else
-    $idCat=2;
+    else{
+        $idCom=$company;
+    }   
+
+   
     
-    if(isset($_FILES['img-product'])){
-        $file_name = $_FILES['img-product']['name'];
-        $file_size = $_FILES['img-product']['size'];
-        $file_tmp = $_FILES['img-product']['tmp_name'];
+    if(isset($_FILES['image-product'])){
+        $file_name = $_FILES['image-product']['name'];
+        $file_size = $_FILES['image-product']['size'];
+        $file_tmp = $_FILES['image-product']['tmp_name'];
         $file_ext=strtolower(end(explode('.',$file_name)));
         $expensions= array("jpeg","jpg","png");
         
@@ -66,7 +90,8 @@ function add_product(){
         else{
             unset($_SESSION['err']);
             move_uploaded_file($file_tmp,"C:/xampp/htdocs/Image/".$file_name);
-            $GLOBALS['conn']->insertData($name, $price, "/Image/".$file_name, $priceDiscount, $til, $quan,  $idCat);
+            $new=new product;
+            $new->insertData($name, $price, $priceDiscount, $til, $ED, $MGF, "/Image/".$file_name, $mass, $category, $idCom, $quan);
         }
     }
     
@@ -75,31 +100,50 @@ function add_product(){
 
 
 function update_product(){
-    
-    if(!empty($_POST['name-product1'])&&!empty($_POST['price-product1'])&&!empty($_POST['quantity-product1'])&&!empty($_POST['title1'])){
-    $id=$_POST['id'];
-    $name=$_POST['name-product1'];
-    $idCat;
-    $category=$_POST['category1'];
-    $price=$_POST['price-product1'];
-    $priceDiscount=$_POST['discount-price-product1'];
-    $quan=$_POST['quantity-product1'];
-    $til=$_POST['title1'];
-    if($category=="mới"){
-        $idCat=3;
+    $id=$_POST['idd'];
+    $name=$_POST['name-productt'];
+    $idCom;
+    $mass=$_POST['mass-productt'];
+    $category=$_POST['industryy'];
+    $company=$_POST['companyy'];
+    $price=$_POST['price-productt'];
+    $priceDiscount=$_POST['discount-price-productt'];
+    $quan=$_POST['quantity-productt'];
+    $til=$_POST['titlee'];
+    $ED=$check=date("Y-m-d", strtotime( $_POST['EDD']));
+    $MGF=$_POST['MFGG'];
+    if($category=="Other"){
+        $name_cat=$_POST['name-industryy'];
+        $newInd=new industry;
+        $newInd->insertData($name_cat);
+        $row2=mysqli_fetch_array($GLOBALS['conn']->execute("select max(id) from product_industry"));
+        $category=$row2['max(id)'];
+   
     }
-    else if($category=="nam"){
-        $idCat=1;
+    if($company=="Other"){
+        if(isset($_POST['name-company'])&&isset($_POST['address-company'])&&isset($_POST['manager-company'])&&isset($_POST['license-number'])){
+            $name_com=$_POST['name-company'];
+            $address_com=$_POST['address-company'];
+            $manager_com=$_POST['manager-company'];
+            $license=$_POST['license-number'];
+            $newCom=new company;
+           
+            $newCom->insertData($name_com, $address_com, $manager_com, $license);
+            $row2=mysqli_fetch_array($GLOBALS['conn']->execute("select max(id) from company"));
+            $idCom=$row2['max(id)'];
+        }
+        
     }
-    else
-    $idCat=2;
-    $file_name = $_FILES['img-product1']['name'];
+    else{
+        $idCom=$company;
+    }   
+    $file_name = $_FILES['img-productt']['name'];
     $file_ext=strtolower(end(explode('.',$file_name)));
     if(!empty($file_ext)){
-        $file_name = $_FILES['img-product1']['name'];
+        $file_name = $_FILES['img-productt']['name'];
         
-        $file_size = $_FILES['img-product1']['size'];
-        $file_tmp = $_FILES['img-product1']['tmp_name'];
+        $file_size = $_FILES['img-productt']['size'];
+        $file_tmp = $_FILES['img-productt']['tmp_name'];
         $file_ext=strtolower(end(explode('.',$file_name)));
         
         $expensions= array("jpeg","jpg","png");
@@ -114,20 +158,21 @@ function update_product(){
         else{
             unset($_SESSION['err']);
             move_uploaded_file($file_tmp,"C:/xampp/htdocs/Image/".$file_name);
-            $GLOBALS['conn']->insertData($id, $name, $price, "/Image/".$file_name, $priceDiscount, $til, $quan,  $idCat);
+            $new=new product;
+            $new->update($id, $name, $price, $priceDiscount, $til, $ED, $MGF, "/Image/".$file_name, $mass, $category, $idCom, $quan);
         }
     }
     else{
-        
-        $GLOBALS['conn']->updateData($id, $name, $price, $_POST['imgAdd'], $priceDiscount, $til, $quan,  $idCat);
+        $new=new product;
+        $new->update($id, $name, $price, $priceDiscount, $til, $ED, $MGF, $_POST['imgadd'], $mass, $category, $idCom, $quan);
     }
-}
 }
 function delete_product(){
     $id=$_POST['delete'];
-    $GLOBALS['conn']->delete($id);
+    $new=new product;
+    $new->delete($id);
 }
-if(array_key_exists('login', $_POST)){   
+if(array_key_exists('add', $_POST)){   
     add_product();
 }
 if(array_key_exists('log', $_POST)){   

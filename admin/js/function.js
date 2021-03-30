@@ -3,16 +3,22 @@ function change(k){
     for(var i in product){
         if(product[i]['id']==k){
             document.getElementById('name').value=product[i]['name'];
-            document.getElementById('imgAdd').value=product[i]['image'];
-            document.getElementById('id').value=product[i]['id'];
+            document.getElementById('idd').value=product[i]['id'];
             document.getElementById('title').value=product[i]['title'];
             document.getElementById('price').value=product[i]['price'];
             document.getElementById('discount').value=product[i]['discount'];
-            document.getElementById('quan').value=product[i]['quantity'];
-            document.getElementById('img').src=product[i]['image'];
+            document.getElementById('quantity').value=product[i]['quantity'];
+            document.getElementById('imgadd').value=product[i]['image'];
+            document.getElementById('imgadd').src=product[i]['image'];
             
-            var e = document.getElementById("category");
-            var strUser = e.options[e.selectedIndex].value=product[i]['category'];
+            document.getElementById('MFG').value=product[i]['MFG'];
+            document.getElementById('ED').value=product[i]['ED'];
+            document.getElementById('mass').value=product[i]['mass'];
+
+            var e = document.getElementById("industry");
+            var strUser = e.options[e.selectedIndex].value=product[i]['industry'];
+            var e = document.getElementById("company");
+            var strUser = e.options[e.selectedIndex].value=product[i]['company'];
         }
     }
     
@@ -21,17 +27,17 @@ function myFunction(){
     var e = document.getElementById("industry");
     var data = e.value;
     if(data=="Other"){
-        document.getElementById("input-industry").style.display="block";
+        document.getElementById("input-industry").innerHTML="<label for=''>Nhập ngành sản phẩm</label><br><input type='text' name='name-industry' placeholder='Nhập ngành sả phẩm' required><br>";
     }
     else
-    document.getElementById("input-industry").style.display="none";
+    document.getElementById("input-industry").innerHTML="";
 }
 function myFunction1(){
     var e = document.getElementById("company");
     var data = e.value;
     if(data=="Other"){
-        document.getElementById("input-company").style.display="block";
+        document.getElementById("input-company").innerHTML="<label for=''>Nhập tên công ty</label><br><input type='text' name='name-company' placeholder='Nhập tên công ty' required><br><label for=''>Nhập địa chỉ công ty</label><br><input type='text' name='address-company' placeholder='Nhập địa chỉ công ty' required><br><label for=''>Giám đốc công ty</label><br><input type='text' name='manager-company' placeholder='Nhập giám đốc công ty' required><br><label for=''>Mã số thuế</label><br><input type='text' name='license-number' placeholder='Mã số thuế' required><br>";
     }
     else
-    document.getElementById("input-company").style.display="none";
+    document.getElementById("input-company").innerHTML="";
 }
