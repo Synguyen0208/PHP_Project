@@ -1,0 +1,52 @@
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <form method="POST" id="form" action="" enctype="multipart/form-data">
+            <div class="modal-header">
+                <h1>Thêm sản phẩm</h1>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Nhập tên sản phẩm</label><br>
+                            <input type="text" name="name-product" placeholder="Nhập tên sản phẩm" required><br>
+                            <label for="">Danh mục sản phẩm</label><br>
+                            <select name="category" id="">
+                                <option value="nam">Thời trang nam</option>
+                                <option value="nữ">Thời trang nữ</option>
+                                <option value="mới">Sản phẩm mới</option>
+                            </select><br>
+                            <div class="in_price">
+                                <div>
+                                    <label for="">Giá sản phẩm</label><br>
+                                    <input type="number" min="1" name="price-product" placeholder="Nhập giá sản phẩm"
+                                        required>
+                                </div>
+                                <div>
+                                    <label for="">Phần trăm giảm</label><br>
+                                    <input type="number" min="1" max="100" name="discount-price-product"
+                                        placeholder="Nhập phần trăm giảm" required>
+                                </div>
+                            </div>
+                            <label for="">Số lượng sản phẩm</label><br>
+                            <input type="number" min="0" name="quantity-product" placeholder="Nhập số lượng sản phẩm"
+                                required><br>
+                            <label for="">Chọn hình ảnh sản phẩm</label><br>
+                            <input type="file" name="img-product"><br>
+                            <span>
+                                <?php echo $_SESSION['err']?>
+                            </span><br>
+                            <label for="">Mô tả sản phẩm</label><br>
+                            <textarea name="title" id="" cols="30" rows="10" required></textarea><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="login" value="login" class="btn btn-primary btn-lg" name="login">
+                    Thêm Sản Phẩm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
