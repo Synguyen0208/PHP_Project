@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
 <head>Suafgg
+=======
+<head>Suaftgg
+>>>>>>> 0b333cc55d687de998e9933bb4f2099cd550c800
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
