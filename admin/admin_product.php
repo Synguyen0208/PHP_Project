@@ -140,9 +140,9 @@ $conn=new connect_database("php_project");
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Warning Card</div>
+                                    <div class="card-body">Supply partner management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_company.php">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -208,10 +208,9 @@ $conn=new connect_database("php_project");
                                         </tfoot>
                                         <tbody>
                                         <?php 
-                                            $data=new product;
-                                            $result = $data->getFullData();
+                                       
+                                            $result = $GLOBALS['conn']->select(" pro.id, pro.name,quantity, price, discount, title, ED, MFG, image, mass, industry, com.name as company FROM ((product pro INNER JOIN product_industry ind ON pro.industry_id=ind.id) INNER JOIN company com on pro.id_com=com.id)");
                                             $arr=array();
-                                            
                                             while ($row = mysqli_fetch_array($result)) {
                                                 $arr[]=array(
                                                     'id'=>$row['id'],
@@ -440,8 +439,8 @@ $conn=new connect_database("php_project");
                                 
                                 <input type="file" name="image-productt"><br>
                                 <span><?php echo $_SESSION['err']?></span><br>
-                                <img src="" id="img" value="kk" alt=""><br>
-                                <input type="text" id="image" name="image" style="">
+                                <img src="" id="img" style="width: 6rem; height: 6rem" value="kk" alt=""><br>
+                                <input type="text" id="image" name="image" style="display:none">
                                 <label for="">Mô tả sản phẩm</label><br>
                                 <textarea name="titlee" id="title" cols="30" rows="10" required></textarea><br>
                             </div>

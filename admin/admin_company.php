@@ -1,7 +1,5 @@
 <?php
 require "funtion.php";
-
-
 session_start();
 $conn=new connect_database("php_project");
 // error_reporting(0);
@@ -123,24 +121,24 @@ $conn=new connect_database("php_project");
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">PRODUCT ADMIN</h1>
+                        <h1 class="mt-4">SUPPLY PARTNER ADMIN</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">PRODUCT</li>
+                            <li class="breadcrumb-item active">SUPPLY PARTNER</li>
                         </ol>
-                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Thêm sản phẩm</button>  
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Add a supplier</button>  
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Product management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_product.php">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Warning Card</div>
+                                    <div class="card-body">Supply partner management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -177,55 +175,40 @@ $conn=new connect_database("php_project");
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Discount</th>
-                                                <th>Mass</th>
-                                                <th>Quantity</th>
-                                                <th>Title</th>
-                                                <th>Image</th>
-                                                <th>Category</th>
-                                                <th>ED</th>
-                                                <th>MFG</th>
-                                                <th>Company</th>
+                                                <th>Address</th>
+                                                <th>Manager</th>
+                                                <th>license_number</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Discount</th>
-                                                <th>Mass</th>
-                                                <th>Quantity</th>
-                                                <th>Title</th>
-                                                <th>Image</th>
-                                                <th>Category</th>
-                                                <th>ED</th>
-                                                <th>MFG</th>
-                                                <th>Company</th>
+                                                <th>Address</th>
+                                                <th>Manager</th>
+                                                <th>license_number</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
                                         <?php 
-                                            $data=new product;
-                                            $result = $data->getFullData();
+                                            
+                                            $result = $GLOBALS['conn']->select("* from company");
                                             $arr=array();
                                             
                                             while ($row = mysqli_fetch_array($result)) {
                                                 $arr[]=array(
                                                     'id'=>$row['id'],
                                                     'name'=>$row['name'],
-                                                    'price'=>$row['price'],
-                                                    'mass'=>$row['mass'],
-                                                    'discount'=>$row['discount'],
-                                                    'quantity'=>$row['quantity'],
-                                                    'title'=>$row['title'],
-                                                    'image'=>$row['image'],
-                                                    'industry'=>$row['industry'],
-                                                    'ED'=>$row['ED'],
-                                                    'MFG'=>$row['MFG'],
-                                                    'company'=>$row['company']
+                                                    'address'=>$row['address'],
+                                                    'manager'=>$row['manager'],
+                                                    'license_number'=>$row['license_number'],
+                                                    'phone'=>$row['phone'],
+                                                    'email'=>$row['email']
                                                 );
                                         ?>
                                         <tr>
@@ -233,39 +216,25 @@ $conn=new connect_database("php_project");
                                                 <?php echo $row['name']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['price']?>
+                                                <?php echo $row['address']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['discount']?>
+                                                <?php echo $row['manager']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['mass']?>
+                                                <?php echo $row['license_number']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['quantity']?>
+                                                <?php echo $row['phone']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['title']?>
+                                                <?php echo $row['email']?>
                                             </td>
                                             <td>
-                                            <img src="<?php echo $row['image']?>" class="img-responsive" style="width:4rem; height:5rem " alt="Image">
-                                            </td>
-                                            <td>
-                                                <?php echo $row['industry']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['ED']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['MFG']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['company']?>
-                                            </td>
-                                            <td>
-                                                <button data-toggle="modal" name="add"  data-target="#myModal1" onclick="change(<?php echo $row['id']?>)"><img src="https://taiwebs.com/upload/icons/systemmodeler.png" style="width: 2rem" alt=""></button>
+                                                <button data-toggle="modal" name="add"  data-target="#myModal1" onclick="changeCom(<?php echo $row['id']?>)"><img src="https://taiwebs.com/upload/icons/systemmodeler.png" style="width: 2rem" alt=""></button>
                                                 <form action="" method="post">
-                                                <button type="submit" name="delete" value="<?php echo $row['id']?>"><img src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/82-512.png" onclick="delete1();"style="width: 2rem; height: 2rem" alt=""></button>
+                                                <button type="submit" name="deleteCom" onclick="setTrue()" value="<?php echo $row['id']?>"><img src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/82-512.png" onclick="delete1();"style="width: 2rem; height: 2rem" alt=""></button>
+                                                <input type="text" name="bool"  id="bool" style="display: none" value="">
                                                 </form>
                                                 
                                             </td>
@@ -299,163 +268,74 @@ $conn=new connect_database("php_project");
             </div>
 
             <div id="myModal" class="modal">
-            <div class="modal-content">
-                <form method="POST" id="form" action="admin_product.php" enctype = "multipart/form-data">
+        <div class="modal-content">
+            <form method="POST" id="form" action="" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1>Thêm sản phẩm</h1>
+                    <h1>Add supply partner</h1>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <label for="">Nhập tên sản phẩm</label><br>
-                                <input type="text" name="name-product" placeholder="Nhập tên sản phẩm" required><br>
-                                <label for="">Danh mục sản phẩm</label><br>
-                                <select name="category" id="industry" onchange="myFunction()" >
-                                    <?php 
-                                     $sql="SELECT id, industry from product_industry;";
-                                     $result = $GLOBALS['conn']->execute($sql);
-                                    while ($row = mysqli_fetch_array($result)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']?>"><?php echo $row['industry']?></option>
-                                    <?php }?>
-                                    <option value="Other">Other</option>
-                                </select><br>
-                                <div class="industry" id="input-industry">
-                                    
-                                </div>
-                                <div class="in_price">
-                                    <div>
-                                        <label for="">Giá sản phẩm</label><br>
-                                        <input type="number" min="1" name="price-product"
-                                            placeholder="Nhập giá sản phẩm" required>
-                                    </div>
-                                    <div>
-                                        <label for="">Phần trăm giảm</label><br>
-                                        <input type="number" min="1" max="100" name="discount-price-product"
-                                            placeholder="Nhập phần trăm giảm" required>
-                                    </div>
-                                </div>
-                                <label for="">Số lượng sản phẩm</label><br>
-                                <input type="number" min="0" name="quantity-product" placeholder="Nhập số lượng sản phẩm" required><br>
-                                <label for="">Khối lượng sản phẩm</label><br>
-                                <input type="number" min="0" name="mass-product" placeholder="Nhập khối lượng sản phẩm" required><br>
-                                <label for="">Ngày sản xuất</label>
-                                <input type="date" name="ED" id="" required><br>
-                                <label for="">Hạn sử dụng</label>
-                                <input type="date" name="MFG" id="" required><br>
-                                <label for="">Công ty sản xuất</label><br>
-                                <select name="company" id="company" onchange="myFunction1()" >
-                                    <?php 
-                                     $sql="SELECT id, name from company;";
-                                     $result = $GLOBALS['conn']->execute($sql);
-                                    while ($row = mysqli_fetch_array($result)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
-                                    <?php }?>
-                                    <option value="Other">Other</option>
-                                </select><br>
-                                <div class="input-company" id="input-company">
-                                   
-                                </div>
-                                
-                                <input type="file" name="image-product"><br>
-                                <span><?php echo $_SESSION['err']?></span><br>
-                                <label for="">Mô tả sản phẩm</label><br>
-                                <textarea name="title" id="" cols="30" rows="10" required></textarea><br>
+                                <label for="">Name company</label><br>
+                                <input type="text" name="name" placeholder="Nhập tên công ty" required><br>
+                                <label for="">Address</label><br>
+                                <input type="text" name="address" placeholder="Nhập địa chỉ công ty" required><br>
+                                <label for="">Manager</label><br>
+                                <input type="text" name="manager" placeholder="Giám đốc công ty" required><br>
+                                <label for="">License number</label>
+                                <input type="text" name="license" id="" placeholder="Mã số thuế" required><br>
+                                <label for="">Phone</label>
+                                <input type="phone" name="phone" id="" placeholder="Số điện thoại" required><br>
+                                <label for="">Email</label><br>
+                                <input type="email" name="email" placeholder="Email"><br>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit"  id="add" value="add" class="btn btn-primary btn-lg" name="add">
-                        Thêm Sản Phẩm
+                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="addCom">
+                        Add
                     </button>
                 </div>
-                </form>
-            </div>
+            </form>
+        </div>
     </div>
-
     <div id="myModal1" class="modal">
-    <div class="modal-content">
-        <form method="POST" id="form" action="" enctype="multipart/form-data">
-            <div class="modal-header">
-                <h1>Sửa sản phẩm</h1>
-            </div>
-            <div class="modal-body">
+        <div class="modal-content">
+            <form method="POST" id="form" action="" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h1>Edit supply partner</h1>
+                </div>
+                <div class="modal-body">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <input type="number" id="idd" name="idd" readonly="true">
-                                <label for="">Nhập tên sản phẩm</label><br>
-                                <input type="text" id="name" name="name-productt" placeholder="Nhập tên sản phẩm" required><br>
-                                <label for="">Danh mục sản phẩm</label><br>
-                                <select name="industryy" id="industry" onchange="myFunction()" >
-                                    <?php 
-                                     $sql="SELECT id, industry from product_industry;";
-                                     $result = $GLOBALS['conn']->execute($sql);
-                                    while ($row = mysqli_fetch_array($result)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']?>"><?php echo $row['industry']?></option>
-                                    <?php }?>
-                                    <option value="Other">Other</option>
-                                </select><br>
-                                <div class="industry" id="input-industry">
-                                    
-                                </div>
-                                <div class="in_price">
-                                    <div>
-                                        <label for="">Giá sản phẩm</label><br>
-                                        <input type="number" id="price" min="1" name="price-productt"
-                                            placeholder="Nhập giá sản phẩm" required>
-                                    </div>
-                                    <div>
-                                        <label for="">Phần trăm giảm</label><br>
-                                        <input type="number" id="discount" min="1" max="100" name="discount-price-productt"
-                                            placeholder="Nhập phần trăm giảm" required>
-                                    </div>
-                                </div>
-                                <label for="">Số lượng sản phẩm</label><br>
-                                <input type="number" min="0" name="quantity-productt" id="quantity" placeholder="Nhập số lượng sản phẩm" required><br>
-                                <label for="">Khối lượng sản phẩm</label><br>
-                                <input type="number" min="0" name="mass-productt" id="mass" placeholder="Nhập khối lượng sản phẩm" required><br>
-                                <label for="">Ngày sản xuất</label>
-                                <input type="date" name="EDD" id="ED" required><br>
-                                <label for="">Hạn sử dụng</label>
-                                <input type="date" name="MFGG" id="MFG" required><br>
-                                <label for="">Công ty sản xuất</label><br>
-                                <select name="companyy" id="company" onchange="myFunction1()" >
-                                    <?php 
-                                     $sql="SELECT id, name from company;";
-                                     $result = $GLOBALS['conn']->execute($sql);
-                                    while ($row = mysqli_fetch_array($result)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
-                                    <?php }?>
-                                    <option value="Other">Other</option>
-                                </select><br>
-                                <div class="input-company" id="input-company">
-                                   
-                                </div>
-                                
-                                <input type="file" name="image-productt"><br>
-                                <span><?php echo $_SESSION['err']?></span><br>
-                                <img src="" id="img" value="kk" alt=""><br>
-                                <input type="text" id="image" name="image" style="">
-                                <label for="">Mô tả sản phẩm</label><br>
-                                <textarea name="titlee" id="title" cols="30" rows="10" required></textarea><br>
+                                <input type="number" id="id" name="id" readonly="true"><br>
+                                <label for="">Name</label><br>
+                                <input type="text" name="name" id="name" placeholder="Nhập tên công ty" required><br>
+                                <label for="">Address</label><br>
+                                <input type="text" name="address" id="address" placeholder="Nhập địa chỉ công ty" required><br>
+                                <label for="">Manager</label><br>
+                                <input type="text" name="manager" id="manager" placeholder="Giám đốc công ty" required><br>
+                                <label for="">License number</label>
+                                <input type="text" name="license" id="license" placeholder="Mã số thuế" required><br>
+                                <label for="">Phone</label>
+                                <input type="phone" name="phone" id="phone" placeholder="Số điện thoại" required><br>
+                                <label for="">Email</label><br>
+                                <input type="email" name="email" id="email" placeholder="Email"><br>
                             </div>
                         </div>
                     </div>
                 </div>
-            <div class="modal-footer">
-                <button type="submit" id="login" value="login" class="btn btn-primary btn-lg" name="log">
-                    Sửa Sản Phẩm
-                </button>
-            </div>
-        </form>
+                <div class="modal-footer">
+                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="EditCom">
+                        Edit
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>

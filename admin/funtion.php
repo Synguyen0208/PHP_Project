@@ -27,6 +27,28 @@ class connect_database{
         $result = mysqli_query($this->conn, $sql);
         return $result;
     }
+    private function checkError($result){
+        if(!$result)
+            echo "<script>alert('Thực thi không thành công!')</script>";
+    }
+    public function insert($state){
+        $sql="insert into ".$state;
+      
+        $this->checkError($this->execute($sql));
+    }
+    public function update($state, $id){
+        $sql="update ".$state."where id=$id";
+        $this->checkError($this->execute($sql));
+    }
+    public function delete($state, $id){
+        $sql="delete from  ".$state." where id=$id";
+        $this->checkError($this->execute($sql));
+    }
+    public function select($state){
+        $sql="select".$state;
+    
+        return $this->execute($sql);
+    }
 }
 
 
@@ -40,18 +62,17 @@ function add_product(){
     $category=$_POST['category'];
     $company=$_POST['company'];
     $price=$_POST['price-product'];
-    $priceDiscount=$_POST['discount-price-product'];
-    $quan=$_POST['quantity-product'];
-    $til=$_POST['title'];
-    $ED=$check=date("Y-m-d", strtotime( $_POST['ED']));
-    $MGF=$_POST['MFG'];
+    $discount=$_POST['discount-price-product'];
+    $quantity=$_POST['quantity-product'];
+    $title=$_POST['title'];
+    $ED=date("Y-m-d", strtotime( $_POST['ED']));
+    $MFG=$_POST['MFG'];
     if($category=="Other"){
         $name_cat=$_POST['name-industry'];
-        $newInd=new industry;
-        $newInd->insertData($name_cat);
-        $row2=mysqli_fetch_array($GLOBALS['conn']->execute("select max(id) from product_industry"));
+        $sql="product_industry(industry) values('$name_cat');";
+        $GLOBALS['conn']->insert($sql);
+        $row2=mysqli_fetch_array($GLOBALS['conn']->select(" max(id) from product_industry"));
         $category=$row2['max(id)'];
-        echo $row2['maxid'];
     }
     if($company=="Other"){
         if(isset($_POST['name-company'])&&isset($_POST['address-company'])&&isset($_POST['manager-company'])&&isset($_POST['license-number'])){
@@ -59,10 +80,11 @@ function add_product(){
             $address_com=$_POST['address-company'];
             $manager_com=$_POST['manager-company'];
             $license=$_POST['license-number'];
-            $newCom=new company;
-           
-            $newCom->insertData($name_com, $address_com, $manager_com, $license);
-            $row2=mysqli_fetch_array($GLOBALS['conn']->execute("select max(id) from company"));
+            $phone=$_POST['phone'];
+            $email=$_POST['email'];
+            $sql="company(name, address, manager, license_number, phone, email) values('$name_com', '$address_com', '$manager_com', '$license', '$phone', '$email');";
+            $GLOBALS['conn']->insert($sql);
+            $row2=mysqli_fetch_array($GLOBALS['conn']->select(" max(id) from company"));
             $idCom=$row2['max(id)'];
         }
         
@@ -90,15 +112,39 @@ function add_product(){
         else{
             unset($_SESSION['err']);
             move_uploaded_file($file_tmp,"C:/xampp/htdocs/Image/".$file_name);
-            $new=new product;
-            $new->insertData($name, $price, $priceDiscount, $til, $ED, $MGF, "/Image/".$file_name, $mass, $category, $idCom, $quan);
+            $image='/Image/'.$file_name;
+            $sql="product(name, price, discount, title, ED, MFG, image, mass, industry_id, id_com, quantity)
+            values('$name', $price, $discount, '$title', '$ED', '$MFG', '$image', $mass, $category, $idCom, $quantity);";
+            $GLOBALS['conn']->insert($sql);
         }
     }
     
 }
 }
+function add_supplier(){
 
+    $name=$_POST['name'];
+    $manager=$_POST['manager'];
+    $address=$_POST['address'];
+    $license=$_POST['license'];
+    $phone=$_POST['phone'];
+    $email=$_POST['email'];
+    $sql="company(name, address, manager, license_number, phone, email) values('$name', '$address', '$manager', '$license', '$phone', '$email');";
+    $GLOBALS['conn']->insert($sql);
 
+}
+function update_company(){
+    $id=$_POST['id'];
+    $name=$_POST['name'];
+    $manager=$_POST['manager'];
+    $address=$_POST['address'];
+    $license=$_POST['license'];
+    $phone=$_POST['phone'];
+    $email=$_POST['email'];
+    $sql="company set name='$name', address='$address', manager='$manager', license_number='$license', phone='$phone', email='email' ";
+    $GLOBALS['conn']->update($sql, $id);
+
+}
 function update_product(){
     $id=$_POST['idd'];
     $imgadd=$_POST['image'];
@@ -170,17 +216,31 @@ function update_product(){
 }
 function delete_product(){
     $id=$_POST['delete'];
-    $new=new product;
-    $new->delete($id);
+    $GLOBALS['conn']->delete("product", $id);
+}
+function delete_company(){
+    $id=$_POST['deleteCom'];
+    if($_POST['bool']==True){
+        $GLOBALS['conn']->delete("company", $id);
+    }
 }
 if(array_key_exists('add', $_POST)){   
     add_product();
 }
+if(array_key_exists('addCom', $_POST)){   
+    add_supplier();
+}
 if(array_key_exists('log', $_POST)){   
     update_product();
 }
+if(array_key_exists('EditCom', $_POST)){   
+    update_company();
+}
 if(array_key_exists('delete', $_POST)){  
     delete_product();
+}
+if(array_key_exists('deleteCom', $_POST)){  
+ delete_company();
 }
 
  ?>
