@@ -45,7 +45,7 @@ $conn=new connect_database("php_project");
                         <a class="dropdown-item" href="#">Settings</a>
                         <a class="dropdown-item" href="#">Activity Log</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="login.html">Logout</a>
+                        <a class="dropdown-item" href="login.php">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -85,8 +85,8 @@ $conn=new connect_database("php_project");
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
+                                            <a class="nav-link" href="login.php">Login</a>
+                                            <a class="nav-link" href="register.php">Register</a>
                                             <a class="nav-link" href="password.html">Forgot Password</a>
                                         </nav>
                                     </div>
