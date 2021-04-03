@@ -10,7 +10,7 @@ require 'funtion.php';
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Page Title - SB Admin</title>
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="../css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="bg-primary">
@@ -24,9 +24,6 @@ require 'funtion.php';
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                                     <div class="card-body">
                                         <form method="post" acction="">
-                                            
-                                                
-                                            
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -65,6 +62,6 @@ require 'funtion.php';
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
+        <script src="../js/scripts.js"></script>
     </body>
 </html>

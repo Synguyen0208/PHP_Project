@@ -1,6 +1,12 @@
 <?php
 require "funtion.php";
 session_start();
+if(!isset($_SESSION['user_admin']))
+header("location: Pages/login.php");
+if(array_key_exists('logout', $_POST)){
+    unset($_SESSION['user_admin']);
+    header("location: Pages/login.php");
+}
 $conn=new connect_database("php_project");
 // error_reporting(0);
 ?>
@@ -43,7 +49,9 @@ $conn=new connect_database("php_project");
                         <a class="dropdown-item" href="#">Settings</a>
                         <a class="dropdown-item" href="#">Activity Log</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="login.php">Logout</a>
+                        <form action="" method="post">
+                            <button class="dropdown-item" name="logout">Logout</button>
+                        </form>
                     </div>
                 </li>
             </ul>
@@ -140,7 +148,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-warning text-white mb-4">
                                     <div class="card-body">Supply partner management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_company.php">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -174,66 +182,61 @@ $conn=new connect_database("php_project");
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Address</th>
-                                                <th>Manager</th>
-                                                <th>license_number</th>
-                                                <th>Phone</th>
+                                                <th>Id</th>
                                                 <th>Email</th>
+                                                <th>Password</th>
+                                                <th>Status</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Address</th>
-                                                <th>Manager</th>
-                                                <th>license_number</th>
-                                                <th>Phone</th>
+                                                <th>Id</th>
                                                 <th>Email</th>
+                                                <th>Password</th>
+                                                <th>Status</th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
                                         <?php 
                                             
-                                            $result = $GLOBALS['conn']->select("* from company");
+                                            $result = $GLOBALS['conn']->select("* from account_admin");
                                             $arr=array();
                                             
                                             while ($row = mysqli_fetch_array($result)) {
                                                 $arr[]=array(
                                                     'id'=>$row['id'],
-                                                    'name'=>$row['name'],
-                                                    'address'=>$row['address'],
-                                                    'manager'=>$row['manager'],
-                                                    'license_number'=>$row['license_number'],
-                                                    'phone'=>$row['phone'],
-                                                    'email'=>$row['email']
+                                                    'email'=>$row['email'],
+                                                    'password'=>$row['password'],
+                                                    'status'=>$row['status']
                                                 );
                                         ?>
                                         <tr>
                                             <td>
-                                                <?php echo $row['name']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['address']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['manager']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['license_number']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['phone']?>
+                                                <?php echo $row['id']?>
                                             </td>
                                             <td>
                                                 <?php echo $row['email']?>
                                             </td>
                                             <td>
+                                                <?php echo $row['password']?>
+                                            </td>
+                                            <td>
+                                                <form action="" method="post">
+                                                    <input style="display: none" type="submit" name="setStatus" id="<?php echo $row['id']?>" value="">
+                                                </form>
+                                                <label class="switch">
+                                                
+                                                    <label for="submit"></label>
+                                                    <input id="check<?php echo $row['id']?>" onclick="setStatus(<?php echo $row['id']?>)" type="checkbox" <?php if($row['status']=="accept"){?> checked<?php }?>>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                
+                                            </td>
+                                            <td>
                                                 <button data-toggle="modal" name="add"  data-target="#myModal1" onclick="changeCom(<?php echo $row['id']?>)"><img src="https://taiwebs.com/upload/icons/systemmodeler.png" style="width: 2rem" alt=""></button>
                                                 <form action="" method="post">
-                                                
                                                 <button type="submit" name="deleteCom" onclick="setTrue()" value="<?php echo $row['id']?>"><img src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/82-512.png" onclick="delete1();"style="width: 2rem; height: 2rem" alt=""></button>
                                                 <input type="text" name="bool"  id="bool" style="display: none" value="false">
                                                 </form>
@@ -243,8 +246,8 @@ $conn=new connect_database("php_project");
                                         </tr>
                                         
                                         <?php }
-                                        echo "<script> var product =".json_encode($arr)."
-                                        localStorage.setItem('listProduct', JSON.stringify(product))</script>";
+                                        echo "<script> var user_admin =".json_encode($arr)."
+                                        localStorage.setItem('listUserAdmin', JSON.stringify(user_admin))</script>";
                                         ?>
                                         </tbody>
                                     </table>

@@ -60,3 +60,14 @@ function myFunction1(){
     else
     document.getElementById('input-company').innerHTML="";
 }
+function setStatus(id){
+    if(document.getElementById("check"+id).checked==true){
+        document.getElementById(id).value=id+"-1";
+        document.getElementById(id).click();
+    }
+    else{
+        document.getElementById(id).value=id+"-0";
+        document.getElementById(id).click();
+    }
+    
+  }

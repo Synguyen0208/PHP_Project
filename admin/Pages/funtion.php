@@ -39,6 +39,7 @@ class connect_database{
     }
     public function update($state, $id){
         $sql="update ".$state."where id=$id";
+        echo $sql;
         $this->checkError($this->execute($sql));
     }
     public function delete($state, $id){
@@ -344,7 +345,20 @@ function reset_password(){
     unset($_SESSION['err2']);
     
 }
-
+function setStatus(){
+    $status=$_POST['setStatus'];
+    echo $status;
+    $result = explode("-", $status);
+    if($result[1]=="1"){
+        $sql="account_admin set status ='accept'";
+        $GLOBALS['conn']->update($sql, $result[0]);
+    }
+    else{
+        $sql="account_admin set status ='Not Accept'";
+        $GLOBALS['conn']->update($sql, $result[0]);
+    }
+    
+}
 if(array_key_exists('add', $_POST)){   
     add_product();
 }
@@ -377,5 +391,8 @@ if(array_key_exists('reset', $_POST)){
 }
 if(array_key_exists('resetpassword', $_POST)){  
     reset_password();
+}
+if(array_key_exists('setStatus', $_POST)){  
+    setStatus();
 }
  ?>
