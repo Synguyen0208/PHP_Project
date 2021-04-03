@@ -1,3 +1,12 @@
+<?php
+session_start();
+if(!isset($_SESSION['user_admin']))
+header("location: login.php");
+if(array_key_exists('logout', $_POST)){
+    unset($_SESSION['user_admin']);
+    header("location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -32,7 +41,9 @@
                         <a class="dropdown-item" href="#">Settings</a>
                         <a class="dropdown-item" href="#">Activity Log</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="login.html">Logout</a>
+                        <form action="" method="post">
+                            <button class="dropdown-item" name="logout">Logout</button>
+                        </form>
                     </div>
                 </li>
             </ul>
