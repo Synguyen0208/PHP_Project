@@ -183,7 +183,9 @@ $conn=new connect_database("php_project");
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
+                                                <th>Phone</th>
                                                 <th>Email</th>
+                                                <th>User name</th>
                                                 <th>Password</th>
                                                 <th>Status</th>
                                                 <th></th>
@@ -192,7 +194,9 @@ $conn=new connect_database("php_project");
                                         <tfoot>
                                             <tr>
                                                 <th>Id</th>
+                                                <th>Phone</th>
                                                 <th>Email</th>
+                                                <th>User name</th>
                                                 <th>Password</th>
                                                 <th>Status</th>
                                                 <th></th>
@@ -201,12 +205,14 @@ $conn=new connect_database("php_project");
                                         <tbody>
                                         <?php 
                                             
-                                            $result = $GLOBALS['conn']->select("* from account_admin");
+                                            $result = $GLOBALS['conn']->select("* from account");
                                             $arr=array();
                                             
                                             while ($row = mysqli_fetch_array($result)) {
                                                 $arr[]=array(
                                                     'id'=>$row['id'],
+                                                    'phone'=>$row['phone'],
+                                                    'user'=>$row['user'],
                                                     'email'=>$row['email'],
                                                     'password'=>$row['password'],
                                                     'status'=>$row['status']
@@ -217,7 +223,13 @@ $conn=new connect_database("php_project");
                                                 <?php echo $row['id']?>
                                             </td>
                                             <td>
+                                                <?php echo $row['phone']?>
+                                            </td>
+                                            <td>
                                                 <?php echo $row['email']?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['user']?>
                                             </td>
                                             <td>
                                                 <?php echo $row['password']?><br>
@@ -225,7 +237,7 @@ $conn=new connect_database("php_project");
                                             </td>
                                             <td>
                                                 <form action="" method="post">
-                                                    <input style="display: none" type="submit" name="setStatus" id="<?php echo $row['id']?>" value="">
+                                                    <input style="display: none" type="submit" name="setStatusAcc" id="<?php echo $row['id']?>" value="">
                                                 </form>
                                                 <label class="switch">
                                                 

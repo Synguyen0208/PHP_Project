@@ -39,6 +39,18 @@ function changeCom(k){
     }
     
 }
+
+function changeAdmin(k){
+    user = JSON.parse(localStorage.getItem('listUserAdmin'));
+    for(var i in user){
+        if(user[i]['id']==k){
+            document.getElementById('email').value=user[i]['email'];
+            document.getElementById('old').value=user[i]['password'];
+        }
+    }
+    
+}
+
 function setTrue(){
     document.getElementById('bool').value=confirm("Are you sure you want to delete this partner company?\nIf you delete this company, all data related to this company will be deleted!");
 }

@@ -295,7 +295,7 @@ function login(){
                     'email'=>$email,
                     'password'=>$password
                 );
-                header("location: index.php");
+                header("location: ../index.php");
             }
             
             else
@@ -345,19 +345,23 @@ function reset_password(){
     unset($_SESSION['err2']);
     
 }
-function setStatus(){
-    $status=$_POST['setStatus'];
-    echo $status;
+function setStatus($table, $status){
     $result = explode("-", $status);
     if($result[1]=="1"){
-        $sql="account_admin set status ='accept'";
+        $sql="$table set status ='accept'";
         $GLOBALS['conn']->update($sql, $result[0]);
     }
     else{
-        $sql="account_admin set status ='Not Accept'";
+        $sql="$table set status ='Not Accept'";
         $GLOBALS['conn']->update($sql, $result[0]);
     }
     
+}
+function changePassword(){
+    $email=$_POST['email'];
+    $newPassword=$_POST['new'];
+    $sql="update account_admin set password ='$newPassword' where email='$email'";
+    $GLOBALS['conn']->execute($sql);
 }
 if(array_key_exists('add', $_POST)){   
     add_product();
@@ -392,7 +396,22 @@ if(array_key_exists('reset', $_POST)){
 if(array_key_exists('resetpassword', $_POST)){  
     reset_password();
 }
+
 if(array_key_exists('setStatus', $_POST)){  
-    setStatus();
+    $status=$_POST['setStatus'];
+    setStatus("account_admin", $status);
+}
+
+if(array_key_exists('setStatusAcc', $_POST)){  
+    $status=$_POST['setStatusAcc'];
+    echo $status;
+    setStatus("account", $status);
+}
+if(array_key_exists('change', $_POST)){  
+    changePassword();
+}
+if(array_key_exists('deleteAccountAdmin', $_POST)){  
+    $id=$_POST['deleteAccountAdmin'];
+    $GLOBALS['conn']->delete("account_admin", $id);
 }
  ?>
