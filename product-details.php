@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Product Details | E-Shopper</title>
+    <title>Product Details</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
@@ -13,10 +13,7 @@
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->       
+          
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -25,6 +22,29 @@
 </head><!--/head-->
 
 <body>
+	<?php
+		session_start();
+		
+		if (isset($_SESSION['username']) && $_SESSION['password'] == true && $_SESSION['phone'] == true && $_SESSION['email'] == true) {
+			$welcomeMessage = "Welcome to the member's area, " . $_SESSION['username'] . "!";
+			} 
+		else {
+			header('Location: login.php');
+			}
+
+		require 'connect.php';
+		$phone=$_SESSION['phone'];
+		$id = isset($_GET['id']) ? (int)$_GET['id'] : '';
+		if ($id){
+			$data = get_product($id, $phone);
+		}
+		
+		if (!$data){	
+			header("location: index.php");
+		}
+		require 'oop.php';
+		$dt = new database;		
+	?>
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -86,11 +106,28 @@
 					<div class="col-md-8 clearfix">
 						<div class="shop-menu clearfix pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
+							<?php
+									if(isset($_SESSION['username'])){
+										
+										echo "<li><a href=''><i class='fa fa-user'></i>";
+										echo "<b>".$_SESSION['username']."</b>";
+										echo "</a></li>";
+									}
+									else {
+										echo "<li><a href=''><i class='fa fa-user'></i> Account</a></li>";
+									}
+								?>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.php"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
+								<?php
+									if(isset($_SESSION['username'])){
+										echo "<li><a href='logout.php'><i class='fa fa-lock'></i> Logout</a></li>";
+									}
+									else{
+										echo "<li><a href='login.php'><i class='fa fa-lock'></i> Login</a></li>";
+									}	
+								?>
 							</ul>
 						</div>
 					</div>
@@ -290,7 +327,7 @@
 					<div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
 							<div class="view-product">
-								<img src="images/product-details/1.jpg" alt="" />
+								<img src="<?php echo $data['image']; ?>" alt="" />
 								<h3>ZOOM</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -328,21 +365,22 @@
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
 								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
-								<h2>Anne Klein Sleeveless Colorblock Scuba</h2>
+								<h2><input type="text" name="name" value="<?php echo $data['title']; ?>"/></h2>
+								<?php if (!empty($errors['title'])) echo $errors['title']; ?>
 								<p>Web ID: 1089772</p>
 								<img src="images/product-details/rating.png" alt="" />
 								<span>
-									<span>US $59</span>
+									<span>$<?php echo $data['price']; ?></span>
 									<label>Quantity:</label>
-									<input type="text" value="3" />
+									<input type="text" value="<?php echo $data['quantity']; ?>" />
 									<button type="button" class="btn btn-fefault cart">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
 									</button>
 								</span>
 								<p><b>Availability:</b> In Stock</p>
-								<p><b>Condition:</b> New</p>
-								<p><b>Brand:</b> E-SHOPPER</p>
+								<p><b>Condition:</b> <?php echo $data['status']; ?> </p>
+								<p><b>Brand:</b><?php echo $data['name']; ?> </p>
 								<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							</div><!--/product-information-->
 						</div>
@@ -354,7 +392,7 @@
 								<li><a href="#details" data-toggle="tab">Details</a></li>
 								<li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
 								<li><a href="#tag" data-toggle="tab">Tag</a></li>
-								<li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
+								<li class="active"><a href="#reviews" data-toggle="tab">Reviews</a></li>
 							</ul>
 						</div>
 						<div class="tab-content">
@@ -513,22 +551,35 @@
 							
 							<div class="tab-pane fade active in" id="reviews" >
 								<div class="col-sm-12">
-									<ul>
-										<li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-										<li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-										<li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
-									</ul>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-									<p><b>Write Your Review</b></p>
+								<?php
+									$dt->select("SELECT account.user, review.review, review.times
+									FROM `review`
+									INNER JOIN `account`
+									ON review.account_phone = account.phone
+									INNER join `product`
+									on review.pro_id = product.id
+									WHERE product.id = {$id};");
+									$i=0;
+									while($r = $dt->fetch()){
+										echo " <ul>
+										<li><a href=''><i class='fa fa-user'></i>".$r['user']."</a></li>
+										<li><a href=''><i class='fa fa-calendar-o'></i>".$r['times']."</a></li>
+										<p>".$r['review']."</p>
+									</ul> ";			
+										}
+									?>
 									
-									<form action="#">
+									<p><b>Write Your Review</b></p>				
+									<form method = "post" action="review.php">
 										<span>
-											<input type="text" placeholder="Your Name"/>
-											<input type="email" placeholder="Email Address"/>
+											<input type="text" placeholder="Your Name" name="name" value="<?php echo $_SESSION['username'] ?>"/> 
+											<input type="email" name="mail" value="<?php echo $_SESSION['email'] ?>"  placeholder="Email Address"/>
+											<input type="hidden" name="id" value="<?php echo $data['id']; ?>"/>
+											<input type="hidden" name="phone" value="<?php echo $_SESSION['phone']; ?>"/>
 										</span>
-										<textarea name="" ></textarea>
+										<textarea name="comm" ></textarea>
 										<b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
-										<button type="button" class="btn btn-default pull-right">
+										<button type="submit" name="comment" class="btn btn-default pull-right">
 											Submit
 										</button>
 									</form>

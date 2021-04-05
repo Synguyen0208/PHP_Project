@@ -98,7 +98,7 @@
 			</div>
 		</div><!--/header-middle-->
 	
-		<div class="header-bottom"><!--header-bottom-->
+		<div class="header-bottom login-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-9">

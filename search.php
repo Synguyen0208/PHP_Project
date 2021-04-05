@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Home</title>
+    <title>Home | E-Shopper</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
@@ -13,17 +13,16 @@
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
-	<link href="css/beauty.css" rel="stylesheet"> 
+	<link href="css/beauty.css" rel="stylesheet">
          
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-	
 </head>
 
-<body >
+<body>
 <?php 
 session_start();
 //Kiem tra dang nhap
@@ -33,29 +32,78 @@ if (isset($_SESSION['username']) && $_SESSION['password'] == true) {
 else {
     header('Location: login.php');
 	}
-	require 'oop.php';
-	$dt = new database;
+	require 'connect.php';
+	connect_db();
+	if(isset($_REQUEST['search'])){
+   
+		$searchq = addslashes($_POST['search']);
+		if (empty($searchq)) {
+			echo "Required to enter data in a blank box";
+		} 
+		else{
+			$output='<br>';
+		   // $searchq = preg_replace("#[^0-9a-z]#i","",$searchq);
+	
+			$query = mysqli_query($conn,"SELECT * FROM product WHERE id LIKE '%$searchq%' OR name LIKE '%$searchq%' OR price LIKE '%$searchq%'");
+		   
+			$count = mysqli_num_rows($query);
+			if($count==0){
+				$output ="There was no search..";
+			}
+			else{
+				while($row = mysqli_fetch_array($query)){
+					$id = $row['id'];
+					$name = $row['name'];
+					$img = $row['image'];
+					$price = $row['price'];
+					$output .='
+						<div class="col-sm-4">
+                            <div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+                                		<img src='.$img.' alt="Products" style="height:200px;">
+										<h2>'.$price.'<sup>đ</sup></h2> 
+                                    	<h4><b>'.$name.'</b></h4>   
+                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+									</div>
+									<div class="product-overlay">
+										<div class="overlay-content">
+											<h2>'.$price.'<sup>đ</sup></h2>
+											<h4><b>'.$name.'</b></h4>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="" class="btn btn-default add-to-cart"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
+										</div>
+									</div>
+								</div>
+                            </div>
+                        </div>
+								';
+				}
+			}
+		}
+	}
+	disconnect_db();
 ?>
 	<header id="header">
-		<div class="header_top" style="background-image: url('https://i.pinimg.com/564x/6b/85/b8/6b85b8588d5096bb8ad2ba672ae8122d.jpg');">
+		<div class="header_top" id="navbar">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#" style="color:white;"><i class="fa fa-phone" ></i> +2 95 01 88 821</a></li>
-								<li><a href="#" style="color:white;"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="social-icons pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#" style="color:white;"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#" style="color:white;"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#" style="color:white;"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#" style="color:white;"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#" style="color:white;"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
 							</ul>
 						</div>
 					</div>
@@ -63,7 +111,7 @@ else {
 			</div>
 		</div>
 		
-		<div class="header-middle" style ="background:white;">
+		<div class="header-middle">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-4 clearfix">
@@ -101,7 +149,7 @@ else {
 									if(isset($_SESSION['username'])){
 										
 										echo "<li><a href=''><i class='fa fa-user'></i>";
-										echo "<b>".$_SESSION['username']."</b>";
+										echo $_SESSION['username'];
 										echo "</a></li>";
 									}
 									else {
@@ -126,7 +174,7 @@ else {
 			</div>
 		</div>
 	
-		<div class="header-bottom" >
+		<div class="header-bottom">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-9">
@@ -156,6 +204,7 @@ else {
 										<li><a href="blog-single.php">Blog Single</a></li>
                                     </ul>
                                 </li> 
+								<li><a href="404.php">404</a></li>
 								<li><a href="contact-us.php">Contact</a></li>
 							</ul>
 						</div>
@@ -171,83 +220,11 @@ else {
 			</div>
 		</div><!--/header-bottom-->
 	</header><!--/header-->
-	
-	<section id="slider" style="background-image: url('https://banghieu365.com/wp-content/uploads/2021/03/Phong-nen-mau-xanh-cong-ty-365_1.jpg'"><!--slider-->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
-						<ol class="carousel-indicators">
-							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
-							<li data-target="#slider-carousel" data-slide-to="1"></li>
-							<li data-target="#slider-carousel" data-slide-to="2"></li>
-						</ol>
-						
-						<div class="carousel-inner">
-							<div class="item active">
-								<div class="col-sm-6">
-								<h1><span>PINK</span>-SHOPPING</h1>
-									<h2>Enjoy Shopping</h2>
-									<p>Here there are many products for those who love beauty. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<br>
-									<img src="images/slide/lip.jpg" class="girl img-responsive" alt=""  />
-									<img src="images/home/pricing.png"  class="pricing" alt="" />
-								</div>
-							</div>
-							<div class="item">
-								<div class="col-sm-6">
-									<br>
-									<h1><span>PINK</span>-SHOPPING</h1>
-									<h2>Enjoy Shopping</h2>
-									<p>Here there are many products for those who love beauty. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<br>
-									<img src="https://cdn.lamdieu.com/wp-content/uploads/2021/03/innisfree-green-tea.jpeg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png"  class="pricing" alt="" />
-								</div>
-							</div>
-							
-							<div class="item">
-								<br>
-								<div class="col-sm-6">
-								<h1><span>PINK</span>-SHOPPING</h1>
-									<h2>Enjoy Shopping</h2>
-									<p>Here there are many products for those who love beauty. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<br>
-									<img src="http://kenhsao.vn/uploads/images/tumblr_poywwhONuC1vz2c9uo1_1280.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png" class="pricing" alt="" />
-								</div>
-							</div>
-							
-						</div>
-						
-						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
-							<i class="fa fa-angle-left"></i>
-						</a>
-						<a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
-							<i class="fa fa-angle-right"></i>
-						</a>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-	</section><!--/slider-->
-	
-	<section >
+	<section>
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="left-sidebar">
-						<br>
 						<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
 							<div class="panel panel-default">
@@ -387,157 +364,25 @@ else {
 				</div>
 				
 				<div class="col-sm-9 padding-right">
-					<div class="features_items"><!--new product-->
-						<br>
-						<h2 class="title text-center">NEW PRODUCT</h2>
-						<?php
-							$dt->select('select * from product');
-							$i=0;
-							while($r = $dt->fetch()){
-							echo '<div class="col-sm-4">
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                    <div class="productinfo text-center">
-                                        <img src="'.$r['image'].'" alt="Products" style="height:200px;">
-                                        <h2>'.$r['price'].'<sup>đ</sup></h2> 
-                                        <h4>'.$r['name'].'</b></h4>   
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                    <div class="product-overlay">
-                                        <div class="overlay-content">
-                                            <h2>'.$r['price'].'<sup>đ</sup></h2>
-                                            <h4><b>'.$r['name'].'</b></h4>
-                                            <form method="post" action="cart.php">
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="product-details.php?id='.$r['id'].'" class="btn btn-default add-to-cart"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-							}
-						?>
-
-					</div><!--new product-->
-					
-					<div class="category-tab"><!--category-tab-->
-					<h2 class="title text-center">PRODUCT CATEGORY</h2>
-						<div class="col-sm-12">
-								<ul class="nav nav-tabs">
-								<?php 
-									$dt->select('select product.id, product.name, product.title,product.image, product.price, product.industry_id, product_industry.id, product_industry.industry
-									from product
-									inner join product_industry
-									on product.industry_id = product_industry.id ;');
-									$i=0;
-									while($r = $dt->fetch()){
-										$i++;
-										echo '<li ><a href="#'.$r['id'].'" data-toggle="tab" name="lotion">'.$r['industry'].'</a></li>';
-									}
-								?>
-								</ul>
-							</div>
-							<div class="tab-content">
-								<?php 
-									$dt->select('select product.id, product.name, product.title,product.image, product.price, product.industry_id, product_industry.id, product_industry.industry
-									from product
-									inner join product_industry
-									on product.industry_id = product_industry.id ;');
-									$i=0;
-									while($r = $dt->fetch()){
-									$i++;
-									
-									echo '<div class="tab-pane fade active in" id="'.$r['id'].'">
-										<div class="col-sm-3">
-											<div class="product-image-wrapper">
-												<div class="single-products">
-													<div class="productinfo text-center">
-														<img src="'.$r['image'].'"  alt="Products" style="height:150px;">
-														<h2>'.$r['price'].'<sup>đ</sup></h2>
-														<h4><b>'.$r['name'].'</b></h4>
-														<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>';
-								}
-								?>
-							</div>
-						</div><!--/category-tab-->
-					
-					<div class="recommended_items"><!--recommended_items-->
-						<h2 class="title text-center">Product recommended</h2>
-						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								
-								<div class="item active">
-									<?php 
-									$dt->select('select * from product limit 3');
-									$i=0;
-									while($r = $dt->fetch()){
-									$i++;
-									echo '<div class="col-sm-4">
-                                            <div class="product-image-wrapper">
-                                                <div class="single-products">
-                                                    <div class="productinfo text-center">
-                                                        <img src="'.$r['image'].'" alt="Products" style="height:150px;">
-                                                        <h2>'.$r['price'].'<sup>đ</sup></h2>
-                                                        <h4><b>'.$r['name'].'</b></h4>
-                                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>';
-									}
-									?>
-								</div>
-								<div class="item">	
-								<?php 
-									$dt->select('select * from product limit 3');
-									$i=0;
-									while($r = $dt->fetch()){
-									$i++;
-									echo '<div class="col-sm-4">
-                                            <div class="product-image-wrapper">
-                                                <div class="single-products">
-                                                    <div class="productinfo text-center">
-                                                        <img src="'.$r['image'].'" alt="Products" style="height:150px;">
-                                                        <h2>'.$r['price'].'<sup>đ</sup></h2>
-                                                        <h4><b>'.$r['name'].'</b></h4>
-                                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>';
-									}
-									?>
-								</div>
-							</div>
-							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-								<i class="fa fa-angle-left"></i>
-							  </a>
-							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-								<i class="fa fa-angle-right"></i>
-							  </a>			
-						</div>
-					</div><!--/recommended_items-->
-					
+					<div class="features_items">
+						<h2 class="title text-center">SEARCHING PRODUCT</h2>
+						<?php                    
+                        if(isset($_POST['search']))
+                        print($output);
+                    ?>
+					</div>				
 				</div>
 			</div>
 		</div>
 	</section>
 	
-	<footer id="footer" ><!--Footer-->
+	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
 						<div class="companyinfo">
-							<h2><span>OLKS</span>-shop</h2>
+							<h2><span>e</span>-shopper</h2>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
 						</div>
 					</div>
@@ -681,20 +526,21 @@ else {
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
-					
+					<p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
 				</div>
 			</div>
 		</div>
 		
 	</footer><!--/Footer-->
-	
 
-  
     <script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.scrollUp.min.js"></script>
 	<script src="js/price-range.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
+	<!--Script-->
+	<script type="text/javascript" src="js/slideScroll.js" ></script>
 </body>
 </html>
