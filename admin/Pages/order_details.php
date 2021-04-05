@@ -1,11 +1,8 @@
 <?php
+require "funtion.php";
 session_start();
-if(!isset($_SESSION['user_admin']))
-header("location: Pages/login.php");
-if(array_key_exists('logout', $_POST)){
-    unset($_SESSION['user_admin']);
-    header("location: Pages/login.php");
-}
+$conn=new connect_database("php_project");
+// error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,13 +13,18 @@ if(array_key_exists('logout', $_POST)){
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Dashboard - SB Admin</title>
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="../css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../css\bootstrap.css">
+    <link rel="stylesheet" href="../css\bootstrap.min.css">
+    <link rel="stylesheet" href="../js\bootstrap.bundle.js">
+    <link rel="stylesheet" href="../js\bootstrap.min.js">
+    <script src="../js/function.js"></script>
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand" href="index.html">ADMIN</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -41,9 +43,7 @@ if(array_key_exists('logout', $_POST)){
                         <a class="dropdown-item" href="#">Settings</a>
                         <a class="dropdown-item" href="#">Activity Log</a>
                         <div class="dropdown-divider"></div>
-                        <form action="" method="post">
-                            <button class="dropdown-item" name="logout">Logout</button>
-                        </form>
+                        <a class="dropdown-item" href="login.php">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -54,7 +54,7 @@ if(array_key_exists('logout', $_POST)){
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.php">
+                            <a class="nav-link" href="../index.PHP">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
@@ -83,9 +83,9 @@ if(array_key_exists('logout', $_POST)){
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">Login</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                            <a class="nav-link" href="password.html">Forgot Password</a>
+                                            <a class="nav-link" href="login.php">Login</a>
+                                            <a class="nav-link" href="register.php">Register</a>
+                                            <a class="nav-link" href="password.php">Forgot Password</a>
                                         </nav>
                                     </div>
                                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
@@ -121,88 +121,119 @@ if(array_key_exists('logout', $_POST)){
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h1 class="mt-4">SUPPLY PARTNER ADMIN</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item active">SUPPLY PARTNER</li>
                         </ol>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Product management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="Pages/admin_product.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_product.php">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Supply partner management</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="Pages/admin_company.php">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Account admin management</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="Pages/account_admin.php">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
                                     <div class="card-body">Account user management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="Pages/account_user.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="account_user.php">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Account admin management</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="account_admin.php">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Order management</div>
+                                    <div class="card-body">Danger Card</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="Pages/order_manager.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area mr-1"></i>
-                                        Area Chart Example
-                                    </div>
-                                    <div class="card-body">
-                                    <iframe width="100%" height="300" src="https://www.youtube.com/embed/Rk-ufKSPYco?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar mr-1"></i>
-                                        Bar Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="63.5px"></canvas></div>
                                 </div>
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table mr-1"></i>
-                                DataTable Example
+                                DataTable product
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>ID product</th>
+                                                <th>Name product</th>
+                                                <th>Price</th>
+                                                <th>Mass</th>
+                                                <th>Quantity</th>
+                                                <th>Brand</th>
+                                                <th>Total amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>ID product</th>
+                                                <th>Name product</th>
+                                                <th>Price</th>
+                                                <th>Mass</th>
+                                                <th>Quantity</th>
+                                                <th>Brand</th>
+                                                <th>Total amount</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                        <?php 
+                                            $id_order=$_GET['id'];
+                                            $result = $GLOBALS['conn']->select(" pro.id, pro.name, pro.price, pro.mass, od.quantity, co.name brand from((product pro INNER JOIN order_details od on pro.id=od.id_pro and od.id_order=$id_order)
+                                            INNER JOIN company co on pro.id_com=co.id                                                             
+                                            )");
+                                            $arr=array(); 
+                                            
+                                            while ($row = mysqli_fetch_array($result)) {
+                                               
+                                        ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $row['id']?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['name']?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['price']?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['mass']?>g
+                                            </td>
+                                            <td>
+                                                <?php echo $row['quantity']?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['brand']?>
+                                            </td>  
+                                            <td>
+                                                <?php echo $row['quantity']*$row['price'] ?>
+                                            </td>
+                                        </tr>
+                                        
+                                        <?php }
+                                        echo "<script> var product =".json_encode($arr)."
+                                        localStorage.setItem('listProduct', JSON.stringify(product))</script>";
+                                        ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -222,14 +253,45 @@ if(array_key_exists('logout', $_POST)){
                 </footer>
             </div>
             </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <form method="POST" id="form" action="" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h1>Update status order</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <label for="">Choose status order</label><br>
+                                <select name="status" id="">
+                                    <?php 
+                                    $result=$GLOBALS['conn']->select(" id, status from order_status");
+                                    while ($row = mysqli_fetch_array($result)) {?>
+                                    <option value="<?php echo $row['id']?>"><?php echo $row['status']?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="update" value="" class="btn btn-primary btn-lg" name="Update">
+                        Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
+        <script src="../js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../js/scripts.js"></script>
+        <script src="../js/function.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/chart-area-demo.js"></script>
-        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="../assets/demo/chart-area-demo.js"></script>
+        <script src="../assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-        <script src="assets/demo/datatables-demo.js"></script>
+        <script src="../assets/demo/datatables-demo.js"></script>
     </body>
 </html>

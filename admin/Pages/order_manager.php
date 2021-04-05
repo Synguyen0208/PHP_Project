@@ -181,7 +181,9 @@ $conn=new connect_database("php_project");
                                                 <th>Order status</th>
                                                 <th>Expected delivery date</th>
                                                 <th>Shipping company</th>
-                                                <th>Area</th>
+                                                <th>Phone shipping company</th>
+                                                <th>Product money</th>
+                                                <th>Transport fee</th>
                                                 <th>Total money</th>
                                                 <th></th>
                                             </tr>
@@ -196,7 +198,9 @@ $conn=new connect_database("php_project");
                                                 <th>Order status</th>
                                                 <th>Expected delivery date</th>
                                                 <th>Shipping company</th>
-                                                <th>Area</th>
+                                                <th>Phone shipping company</th>
+                                                <th>Product money</th>
+                                                <th>Transport fee</th>
                                                 <th>Total money</th>
                                                 <th></th>
                                             </tr>
@@ -204,8 +208,13 @@ $conn=new connect_database("php_project");
                                         <tbody>
                                         <?php 
                                             
-                                            $result = $GLOBALS['conn']->select(" u.name, u.address, a.phone, a.email, o.date_order, o.EDD, o.status, o.money, sh.name as ship, sh.area FROM( (`user` u INNER JOIN account a on u.id_account=a.id) INNER JOIN `order` o on o.id_cus=a.id INNER JOIN shipping_company sh on o.id_ship=sh.code )");
-                                            $arr=array();
+                                            $result = $GLOBALS['conn']->select(" o.id, u.name, u.address, a.phone, a.email, o.date_order, o.EDD, os.status,sh.name as ship, sh.phone as phone_ship, o.money, o.ship_money, o.total_money  FROM
+                                            ((`user` u INNER JOIN account a on a.id=u.id_account)
+                                            INNER JOIN orders o on o.id_cus=a.id
+                                            INNER JOIN order_status os ON o.id_status=os.id
+                                             INNER JOIN shipping_company sh on o.id_ship=sh.code
+                                            )");
+                                            $arr=array(); 
                                             
                                             while ($row = mysqli_fetch_array($result)) {
                                                
@@ -228,6 +237,7 @@ $conn=new connect_database("php_project");
                                             </td>
                                             <td>
                                                 <?php echo $row['status']?>
+                                                <button data-toggle="modal" onclick="document.getElementById('update').value=<?php echo $row['id']?>" data-target="#myModal" >Update</button>
                                             </td>
                                             <td>
                                                 <?php echo $row['EDD']?>
@@ -236,19 +246,19 @@ $conn=new connect_database("php_project");
                                                 <?php echo $row['ship']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['area']?>
+                                                <?php echo $row['phone_ship']?>
                                             </td>
                                             <td>
                                                 <?php echo $row['money']?>
                                             </td>
                                             <td>
-                                                <button data-toggle="modal" name="add"  data-target="#myModal1" onclick="changeCom(<?php echo $row['id']?>)"><img src="https://taiwebs.com/upload/icons/systemmodeler.png" style="width: 2rem" alt=""></button>
-                                                <form action="" method="post">
-                                                
-                                                <button type="submit" name="deleteCom" onclick="setTrue()" value="<?php echo $row['id']?>"><img src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/82-512.png" onclick="delete1();"style="width: 2rem; height: 2rem" alt=""></button>
-                                                <input type="text" name="bool"  id="bool" style="display: none" value="false">
-                                                </form>
-                                                
+                                                <?php echo $row['ship_money']?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['total_money']?>
+                                            </td>
+                                            <td>
+                                                <a class="" href="order_details.php?id=<?php echo $row['id']?>">View details</a>
                                             </td>
                                             
                                         </tr>
@@ -278,71 +288,31 @@ $conn=new connect_database("php_project");
                 </footer>
             </div>
             </div>
-
-            <div id="myModal" class="modal">
+    <div id="myModal" class="modal">
         <div class="modal-content">
             <form method="POST" id="form" action="" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1>Add supply partner</h1>
+                    <h1>Update status order</h1>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <label for="">Name company</label><br>
-                                <input type="text" name="name" placeholder="Nhập tên công ty" required><br>
-                                <label for="">Address</label><br>
-                                <input type="text" name="address" placeholder="Nhập địa chỉ công ty" required><br>
-                                <label for="">Manager</label><br>
-                                <input type="text" name="manager" placeholder="Giám đốc công ty" required><br>
-                                <label for="">License number</label>
-                                <input type="text" name="license" id="" placeholder="Mã số thuế" required><br>
-                                <label for="">Phone</label>
-                                <input type="phone" name="phone" id="" placeholder="Số điện thoại" required><br>
-                                <label for="">Email</label><br>
-                                <input type="email" name="email" placeholder="Email"><br>
+                                <label for="">Choose status order</label><br>
+                                <select name="status" id="">
+                                    <?php 
+                                    $result=$GLOBALS['conn']->select(" id, status from order_status");
+                                    while ($row = mysqli_fetch_array($result)) {?>
+                                    <option value="<?php echo $row['id']?>"><?php echo $row['status']?></option>
+                                    <?php }?>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="addCom">
-                        Add
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div id="myModal1" class="modal">
-        <div class="modal-content">
-            <form method="POST" id="form" action="" enctype="multipart/form-data">
-                <div class="modal-header">
-                    <h1>Edit supply partner</h1>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <input type="number" id="id" name="id" readonly="true"><br>
-                                <label for="">Name</label><br>
-                                <input type="text" name="name" id="name" placeholder="Nhập tên công ty" required><br>
-                                <label for="">Address</label><br>
-                                <input type="text" name="address" id="address" placeholder="Nhập địa chỉ công ty" required><br>
-                                <label for="">Manager</label><br>
-                                <input type="text" name="manager" id="manager" placeholder="Giám đốc công ty" required><br>
-                                <label for="">License number</label>
-                                <input type="text" name="license" id="license" placeholder="Mã số thuế" required><br>
-                                <label for="">Phone</label>
-                                <input type="phone" name="phone" id="phone" placeholder="Số điện thoại" required><br>
-                                <label for="">Email</label><br>
-                                <input type="email" name="email" id="email" placeholder="Email"><br>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="EditCom">
-                        Edit
+                    <button type="submit" id="update" value="" class="btn btn-primary btn-lg" name="Update">
+                        Update
                     </button>
                 </div>
             </form>

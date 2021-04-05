@@ -38,7 +38,7 @@ class connect_database{
         return $this->checkError($this->execute($sql));
     }
     public function update($state, $id){
-        $sql="update ".$state."where id=$id";
+        $sql="update ".$state." where id=$id";
         echo $sql;
         $this->checkError($this->execute($sql));
     }
@@ -409,6 +409,11 @@ if(array_key_exists('setStatusAcc', $_POST)){
 }
 if(array_key_exists('change', $_POST)){  
     changePassword();
+}
+if(array_key_exists('Update', $_POST)){  
+    $id=$_POST['Update'];
+    $status=$_POST['status'];
+    $GLOBALS['conn']->update("orders set id_status=$status", $id);
 }
 if(array_key_exists('deleteAccountAdmin', $_POST)){  
     $id=$_POST['deleteAccountAdmin'];
