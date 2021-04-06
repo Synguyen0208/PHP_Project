@@ -1,3 +1,28 @@
+<?php
+	session_start();
+	require_once('connect.php');
+	// $id = $_GET['id'];
+	// $prd=null;
+	// //$item_quantity = (int)$_POST['item_quantity'];
+	// if(isset($_SESSION['cart'][$id])){
+	// 	$prd = $_SESSION['cart'][$id] +1;
+	// }
+	// else{
+	// 	$prd = 1;
+	// }
+
+	// $_SESSION['cart'][$id] =$prd;
+	// $sl =$_SESSION['cart'];
+	//header('location:shop.php');
+// 	// Remove product from cart, check for the URL param "remove", this is the product id, make sure it's a number and check if it's in the cart
+// 	if (isset($_GET['remove']) && is_numeric($_GET['remove']) && isset($_SESSION['cart']) && isset($_SESSION['cart'][$_GET['remove']])) {
+//     // Remove the product from the shopping cart
+//     unset($_SESSION['cart'][$_GET['remove']]);
+// }
+  
+?> 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +38,7 @@
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/menu_cart.css">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -88,9 +114,9 @@
 							<ul class="nav navbar-nav">
 								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="checkout.php"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
 					</div>
@@ -112,24 +138,24 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html">Home</a></li>
+								<li><a href="index.php">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html" class="active">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
+                                        <li><a href="shop.php">Products</a></li>
+										<li><a href="product-details.php">Product Details</a></li> 
+										<li><a href="checkout.php">Checkout</a></li> 
+										<li><a href="cart.php" class="active">Cart</a></li> 
+										<li><a href="login.php">Login</a></li> 
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.html">Blog List</a></li>
+                                        <li><a href="blog.php">Blog List</a></li>
 										<li><a href="blog-single.html">Blog Single</a></li>
                                     </ul>
                                 </li> 
 								<li><a href="404.html">404</a></li>
-								<li><a href="contact-us.html">Contact</a></li>
+								<li><a href="contact-us.php">Contact</a></li>
 							</ul>
 						</div>
 					</div>
@@ -151,104 +177,127 @@
 				  <li class="active">Shopping Cart</li>
 				</ol>
 			</div>
-			<div class="table-responsive cart_info">
-				<table class="table table-condensed">
-					<thead>
-						<tr class="cart_menu">
-							<td class="image">Item</td>
-							<td class="description"></td>
-							<td class="price">Price</td>
-							<td class="quantity">Quantity</td>
-							<td class="total">Total</td>
-							<td></td>
-						</tr>
-					</thead>
 					<tbody>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/one.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
+						<?php
+						// 	if(isset($_POST['update-cart'])){
+						// 		ini_set("display_errors",0);
+						// 		$quantity_cart=$_POST['quantity_cart'];
+						// 		$query="update cart set quantity='$quantity_cart' where id_pro='$id'";
+						// 		$result4 = mysqli_query($conn,$query);}
+						// 		else{
+						// 		ini_set("display_errors",0);
+						// 	$id = $_GET['id'];
+						// 	$sql ="SELECT * FROM product WHERE id ='$id'";
+						// 	$sql2 ="SELECT * FROM cart WHERE id_pro ='$id'";
+						// 	//$sql ="SELECT * FROM product WHERE id in (select id_pro from cart where id_cus ='$id')";
+						// 	$result = mysqli_query($conn,$sql);
+						// 	$result2 = mysqli_query($conn,$sql2);
+							
+						// 	$total=0;
+							
+						// 	$kq= mysqli_fetch_assoc($result);
+						// 	$kq2= mysqli_fetch_assoc($result2);
+						// 		//$total=$kq['price']*$kq2['quantity'];
+							
+						// 	if(isset($kq2)){
+						// 		$q=$kq2['quantity']+1;
+						// 		$query="update cart set quantity='$q' where id_pro='$id'";
+						// 		$result3 = mysqli_query($conn,$query);
+								
+						// 	}
+					
+						// 	else{
+						// 		$q=1;
+						// 		$query="insert into cart(id_pro,quantity) value ($id,$q)";
+						// 	$result3 = mysqli_query($conn,$query);
+						// 	}
+						// }
+							
+						?>
 
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/two.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/three.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+								<th>ID</th>
+                                    <th>ITEM</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>PRICE</th>
+                                    <th>QUANTITY</th>
+                                    <th>TOTAL</th>
+                                    <th>DELETE</th>
+                                </tr>
+                            </thead>
+							<form action="submit.php" method="post">
+                            <tbody class="text-center">
+							<?php
+								$query="select * from cart";
+								$query2="select * from product";
+								$result1=mysqli_query($conn,$query);
+								$result2=mysqli_query($conn,$query2);
+								if((mysqli_num_rows($result1))&&(mysqli_num_rows($result2))){
+									while($row=mysqli_fetch_assoc($result1)){
+										$id_cart=$row['id_pro'];
+										$quantity=$row['quantity'];
+									
+										while($row2=mysqli_fetch_array($result2)){
+											$row3[]=$row2;
+										}
+										foreach($row3 as $row2){
+											$id_pro=$row2['id'];
+											$name=$row2['name'];
+											$title=$row2['title'];
+											$price=$row2['price'];
+											$image=$row2['image'];
+											$total=$price * $quantity;
+											if ($id_cart==$id_pro){
+												?>
+								<tr>
+								<td>
+								<input type='text' name='idd' value='$id_cart' readonly>
+								</td>
+								<td>
+								<img src='<?php echo $image?>' height='200' width='250' >
+								</td>
+								<td>
+								<?php echo $name?>
+								<?php echo $title?>
+								</td>
+								<td >
+								<input id="price" value=<?php echo $price?> readonly=true style="width: 6rem">
+								</td>
+								<td>
+								<input type='number' id="quantity" onChange="document.getElementById('total').innerHTML=document.getElementById('price').value*document.getElementById('quantity').value" value='<?php echo $quantity?>'>
+								</td>
+								<td >
+								<span id="total" value='<?php echo $total?>'><?php echo $total?></span>
+								</td>
+								<td>
+								<a href='submit.php?id=$id_cart'  name='submit'>SUBMIT</a>
+								</td>
+								</tr>
+								<?php
+											
+											}
+											}
+									}}
+								?>
+
+							</tbody>
+							</form>
+							</table>
+						</div>
+				</tbody>
 		</div>
+		
+	
 	</section> <!--/#cart_items-->
 
 	<section id="do_action">
 		<div class="container">
 			<div class="heading">
+			<p></p>
+			<br>
 				<h3>What would you like to do next?</h3>
 				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
 			</div>
@@ -310,10 +359,9 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Eco Tax <span>$2</span></li>
+							<li>Cart Sub Total <?php echo $total; ?><sup> $</sup></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
+							<li>Total <?php echo $total; ?><sup> $</sup></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
 							<a class="btn btn-default check_out" href="">Check Out</a>
