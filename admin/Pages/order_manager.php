@@ -209,7 +209,7 @@ $conn=new connect_database("php_project");
                                         <?php 
                                             
                                             $result = $GLOBALS['conn']->select(" o.id, u.name, u.address, a.phone, a.email, o.date_order, o.EDD, os.status,sh.name as ship, sh.phone as phone_ship, o.money, o.ship_money, o.total_money  FROM
-                                            ((`user` u INNER JOIN account a on a.id=u.id_account)
+                                            ((`customer` u INNER JOIN account a on a.id=u.id_account)
                                             INNER JOIN orders o on o.id_cus=a.id
                                             INNER JOIN order_status os ON o.id_status=os.id
                                              INNER JOIN shipping_company sh on o.id_ship=sh.code

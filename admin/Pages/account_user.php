@@ -129,10 +129,8 @@ $conn=new connect_database("php_project");
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">SUPPLY PARTNER ADMIN</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">SUPPLY PARTNER</li>
-                        </ol>
+                        <h1 class="mt-4">USER ACCOUNT ADMIN</h1>
+                       
                         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Add a supplier</button>  
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
@@ -164,9 +162,9 @@ $conn=new connect_database("php_project");
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
+                                    <div class="card-body">Order management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="order_manager.php">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
