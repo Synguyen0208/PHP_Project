@@ -4,7 +4,7 @@
         private $host = 'localhost';
         private $user = 'root';
         private $pass = '';
-        private $data = 'project';
+        private $data = 'php_project';
         private $result = null;
         private $que = null;
 

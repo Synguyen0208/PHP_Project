@@ -10,7 +10,7 @@ function connect_db()
      
     // Nếu chưa kết nối thì thực hiện kết nối
     if (!$conn){
-        $conn = mysqli_connect('localhost', 'root', '', 'project') or die ('Can not connect to database');
+        $conn = mysqli_connect('localhost', 'root', '', 'php_project') or die ('Can not connect to database');
         // Thiết lập font chữ kết nối
         mysqli_set_charset($conn, 'utf8');
     }
@@ -24,28 +24,40 @@ function disconnect_db()
         mysqli_close($conn);
     }
 }
- 
+function addView($id){
+    global $conn;
+    
+    connect_db();
 
-function get_product($id, $phone)
+    $sql = "
+    SELECT product.vieww
+    FROM `product`
+    WHERE id= {$id}";
+    $query = mysqli_query($conn, $sql); 
+    
+    if (mysqli_num_rows($query) == 0){
+        $num = "update `product` set vieww = vieww + 1 where id = {$id}";
+        $view = mysqli_query($conn, $num);
+    }
+    
+}
+
+function get_product($id)
 {
     global $conn;
     
     connect_db();
-    $sqll = "SELECT view.account_phone, view.vieww,view.pro_id 
-    FROM view 
-    inner join product
-    on view.pro_id = product.id
-    inner join account
-    on view.account_phone = account.phone
-    where view.pro_id = {$id} and view.account_phone={$phone} 
-    ";
-    $queryy = mysqli_query($conn, $sqll);
-    if (mysqli_num_rows($queryy) == 0) {
-        $view = "insert into `view` (`pro_id`, `account_phone`, `status`) VALUES ({$id}, '{$phone}', 'viewed')"; 
-        $vieww = mysqli_query($conn, $view);
-        $num = "update `product` set vieww = vieww + 1 where id = {$id}";
-        $count = mysqli_query($conn, $num);
+    $sqll = "
+    SELECT product.id, product.view
+    FROM `product`
+    WHERE id= {$id}";
+    $queryy = mysqli_query($conn, $sqll); 
+    
+    if (mysqli_num_rows($queryy) > 0){
+        $num = "update `product` set view = view + 1 where id = {$id}";
+        $view = mysqli_query($conn, $num);
     }
+
     $sql = "
         select product.id, product.name, product.title, product.price, product.image, product.status, manager_stock.quantity, company.name
         from product
@@ -70,77 +82,5 @@ function get_product($id, $phone)
     return $result;
 }
  
-function add_product($name, $img, $price)
-{
-    global $conn;
-     
-    connect_db();
-     
-    $name = addslashes($name);
-    $img = addslashes($img);
-    $price = addslashes($price);
-     
-    // Câu truy vấn thêm
-    $sql = "
-            INSERT INTO products(sp_name, sp_img, sp_price) VALUES
-            ('$name','$img','$price')
-    ";
-     
-    // Thực hiện câu truy vấn
-    $query = mysqli_query($conn, $sql);
-     
-    return $query;
-}
- 
-// Hàm sửa sản phẩm
-function edit_product($id, $name, $img, $price)
-{
-    // Gọi tới biến toàn cục $conn
-    global $conn;
-     
-    // Hàm kết nối
-    connect_db();
-     
-    // Chống SQL Injection
-    $name     = addslashes($name);
-    $img        = addslashes($img);
-    $price   = addslashes($price);
-     
-    // Câu truy sửa
-    $sql = "
-            UPDATE products SET
-            sp_name = '$name',
-            sp_img = '$img',
-            sp_price = '$price'
-            WHERE sp_id = $id
-    ";
-     
-    // Thực hiện câu truy vấn
-    $query = mysqli_query($conn, $sql);
-     
-    return $query;
-}
- 
- 
-// Hàm xóa sinh viên
-function delete_product($id)
-{
-    // Gọi tới biến toàn cục $conn
-    global $conn;
-     
-    // Hàm kết nối
-    connect_db();
-     
-    // Câu truy sửa
-    $sql = "
-            DELETE FROM products
-            WHERE sp_id = $id
-    ";
-     
-    // Thực hiện câu truy vấn
-    $query = mysqli_query($conn, $sql);
-     
-    return $query;
-}
 
 ?>
