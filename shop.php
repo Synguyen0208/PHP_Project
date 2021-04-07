@@ -4,7 +4,7 @@ if(array_key_exists('addtocart', $_POST)){
 	if(isset($_SESSION['id'])){
 		$id_pro=$_POST['addtocart'];
 		$id_cus=$_SESSION['id'];
-		$sql="insert into cart(id_cus, id_pro, quantity) values ($id_cus, $id_pro, 1)";
+		$sql="insert into cart(id_cus, id_pro, quantity) values ($id_cus, $id_pro, 0)";
 		mysqli_query($conn, $sql);
 		$result=mysqli_query($conn, $sql);
 		
@@ -320,7 +320,8 @@ $n=$row1['n'];
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
-						<?php $sql="select * from product";
+						<?php 
+							$sql="select * from product";
 							$result=mysqli_query($conn, $sql);
 							while($row=mysqli_fetch_assoc($result)){
 						?>
@@ -332,7 +333,7 @@ $n=$row1['n'];
 										<h2><?php echo $row['price']?></h2>
 										<p><?php echo $row['name']?></p>
 										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-										<a href="#" class="btn btn-default add-to-cart"><i class=""></i>Buy product</a>
+										<a href="#" class="btn btn-default add-to-cart"><i class=""></i>Buy</a>
 									</div>
 									<div class="product-overlay">
 										<form action="" method="post">
@@ -340,7 +341,7 @@ $n=$row1['n'];
 											<h2><?php echo $row['price']?></h2>
 											<p><?php echo $row['name']?></p>
 											<button name="addtocart" type="submit" value="<?php echo $row['id']?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-											<a href="#" class="btn btn-default add-to-cart"><i class=""></i>Buy product</a>
+											<a href="#" class="btn btn-default add-to-cart"><i class=""></i>Buy</a>
 										</div>
 										</form>
 									</div>

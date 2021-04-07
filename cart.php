@@ -239,6 +239,7 @@ $n=$row1['n'];
 								$query2="select * from product";
 								$result1=mysqli_query($conn,$query);
 								$result2=mysqli_query($conn,$query2);
+								$allTotal = 0;
 								if((mysqli_num_rows($result1))&&(mysqli_num_rows($result2))){
 									while($row=mysqli_fetch_assoc($result1)){
 										$id_cart=$row['id_pro'];
@@ -254,7 +255,9 @@ $n=$row1['n'];
 											$price=$row2['price'];
 											$image=$row2['image'];
 											$total=$price * $quantity;
+											
 											if ($id_cart==$id_pro){
+												$allTotal += $total;
 												?>
 								<tr>
 								
@@ -269,12 +272,12 @@ $n=$row1['n'];
 								<input id="price<?php echo $row['id']?>" value=<?php echo $price?> readonly=true style="width: 6rem">
 								</td>
 								<td>
-									<button onclick="minute(<?php echo $row['id']?>)">-</button>
+									<!-- <button onclick="minute(<?php echo $row['id']?>)">-</button> -->
 									<input type='number' min="0" style="width:5rem; text-align: center" readonly=true id="quantity<?php echo $row['id']?>"  value='<?php echo $quantity?>'>
-									<button onclick="plus(<?php echo $row['id']?>)">+</button>
+									<!-- <button onclick="plus(<?php echo $row['id']?>)">+</button> -->
 								</td>
 								<td >
-								<span id="total<?php echo $row['id']?>" value='<?php echo $total?>'><?php echo $total?></span>
+								<span id="total<?php echo $row['id']?>" value='<?php echo $total?>'><?php echo number_format($total,0,',','.');?></span>
 								</td>
 								<td>
 									<form action="" method="post">
@@ -365,9 +368,9 @@ $n=$row1['n'];
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <?php echo $total?><sup> $</sup></li>
+							<li>Cart Sub Total <?php echo $allTotal?><sup> đ</sup></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <?php echo $total; ?><sup> $</sup></li>
+							<li>Total <?php echo number_format($allTotal,0,',','.');?><sup> đ</sup></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
 							<a class="btn btn-default check_out" href="">Check Out</a>
