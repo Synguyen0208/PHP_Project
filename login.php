@@ -239,6 +239,7 @@ if (isset($_POST['login']))
 							<input type="text" placeholder="Enter your code" name="code" />
 							<button type="submit" name="signup" class="btn btn-default">Signup</button>
 						</form>
+						
 					</div><!--/sign up form-->
 				</div>
 			</div>

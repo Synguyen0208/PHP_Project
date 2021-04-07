@@ -1,6 +1,16 @@
 <?php
  // Biến kết nối toàn cục
  global $conn;
+
+ include 'sendemail_auto/library.php';
+ require 'sendemail_auto/vendor/autoload.php';
+ use PHPMailer\PHPMailer\PHPMailer;
+ use PHPMailer\PHPMailer\Exception;
+ $mail = new PHPMailer(true);
+
+
+
+
   
  // Hàm kết nối database
  function connect_db()
@@ -88,12 +98,46 @@
      
     // Thực hiện câu truy vấn
     $query = mysqli_query($conn, $sql3);
+    if($query){
+        echo "HIHIHIHIH";
+        exit();
+    }
 
                      
     //Thông báo quá trình lưu
+
+    
+
+    
     if ($query)
-        header('Location:login.php');//echo "Quá trình đăng ký thành công. <a href='/'>Về trang chủ</a>";
-    else
+    {
+
+        $mail->CharSet = "UTF-8";
+                    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
+                    $mail->isSMTP();                                      // Set mailer to use SMTP
+                    $mail->Host = SMTP_HOST;  // Specify main and backup SMTP servers
+                    $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                    $mail->Username = SMTP_UNAME;                 // SMTP username
+                    $mail->Password = SMTP_PWORD;                           // SMTP password
+                    $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+                    $mail->Port = SMTP_PORT;                                    // TCP port to connect to
+                    //Recipients
+                    $mail->setFrom(SMTP_UNAME, "Shop Khưa Sỹ Lương");
+                    $mail->addAddress($email, 'Tên người nhận');     // Add a recipient | name is option
+                    $mail->addReplyTo(SMTP_UNAME, 'Tên người trả lời');                 
+                    $mail->isHTML(true);                                  // Set email format to HTML
+                    $mail->Subject = "Đăng kí tài khoản thành công";
+                    $mail->Body = $username." ".$email." ".$password." ".$phone;
+                    $mail->AltBody = "Chào mừng bạn đến với chúng tôi! "; //None HTML
+                    $result = $mail->send();
+			
+        header('Location:');//echo "Quá trình đăng ký thành công. <a href='/'>Về trang chủ</a>";
+    }
+    else{
+
+        echo $conn->error;
         echo "An error occurred during registration. <a href='dangky.php'>Thử lại</a>";
+
+    }
 }
 ?>
