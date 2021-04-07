@@ -1,3 +1,30 @@
+<?php
+	session_start();
+		
+	if (isset($_SESSION['username']) && $_SESSION['password'] == true && $_SESSION['phone'] == true && $_SESSION['email'] == true && $_SESSION['id']==true) {
+		$welcomeMessage = "Welcome to the member's area, " . $_SESSION['username'] . "!";
+		} 
+	else {
+		header('Location: login.php');
+		}
+	require 'oop.php';
+	require 'connect.php';
+	$dt = new database;
+	connect_db();
+	//Xoa san pham trong gio
+	if(array_key_exists('delete', $_POST)){
+        $id=$_POST['delete'];
+        mysqli_query($conn, "delete from cart where id=$id");
+    }
+	
+	$id_cus=$_SESSION['id'];
+	$sql3="select count(id) as n from cart where id_cus=$id_cus";
+	$result=mysqli_query($conn, $sql3);
+	$row1=mysqli_fetch_assoc($result);						
+	$n=$row1['n'];
+?> 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,10 +40,8 @@
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->       
+	<link rel="stylesheet" href="css/menu_cart.css">
+           
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -25,28 +50,7 @@
 </head><!--/head-->
 
 <body>
-<?php
-	session_start();
-		
-	if (isset($_SESSION['username']) && $_SESSION['password'] == true && $_SESSION['phone'] == true && $_SESSION['email'] == true) {
-		$welcomeMessage = "Welcome to the member's area, " . $_SESSION['username'] . "!";
-		} 
-	else {
-		header('Location: login.php');
-		}
-
-	/*require 'connect.php';
-	$phone=$_SESSION['phone'];
-	$id = isset($_GET['id']) ? (int)$_GET['id'] : '';
-	if ($id){
-		$data = get_product($id);
-	}
-	
-	if (!$data){	
-		header("location: index.php");
-	}*/
-?>
-<?php include "header.php" ;?>
+	<?php include "header.php" ?>
 
 	<section id="cart_items">
 		<div class="container">
@@ -56,104 +60,90 @@
 				  <li class="active">Shopping Cart</li>
 				</ol>
 			</div>
-			<div class="table-responsive cart_info">
-				<table class="table table-condensed">
-					<thead>
-						<tr class="cart_menu">
-							<td class="image">Item</td>
-							<td class="description"></td>
-							<td class="price">Price</td>
-							<td class="quantity">Quantity</td>
-							<td class="total">Total</td>
-							<td></td>
-						</tr>
-					</thead>
 					<tbody>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/one.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Khua</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/two.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/three.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+								
+                                    <th>ITEM</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>PRICE</th>
+                                    <th>QUANTITY</th>
+                                    <th>TOTAL</th>
+                                    <th>DELETE</th>
+                                </tr>
+                            </thead>
+							
+                            <tbody class="text-center">
+							<?php
+								$query="select * from cart";
+								$query2="select * from product";
+								$result1=mysqli_query($conn,$query);
+								$result2=mysqli_query($conn,$query2);
+								$allTotal = 0;
+								if((mysqli_num_rows($result1))&&(mysqli_num_rows($result2))){
+									while($row=mysqli_fetch_assoc($result1)){
+										$id_cart=$row['id_pro'];
+										$quantity=$row['quantity'];
+									
+										while($row2=mysqli_fetch_array($result2)){
+											$row3[]=$row2;
+										}
+										foreach($row3 as $row2){
+											$id_pro=$row2['id'];
+											$name=$row2['name'];
+											$title=$row2['title'];
+											$price=$row2['price'];
+											$image=$row2['image'];
+											$total=$price * $quantity;
+											
+											if ($id_cart==$id_pro){
+												$allTotal += $total;
+												?>
+								<tr>		
+									<td>
+										<img src='<?php echo $image?>' height='200' width='250' >
+									</td>
+									<td>
+										<?php echo $name?>
+										<?php echo $title?>
+									</td>
+									<td >
+										<input id="price<?php echo $row['id']?>" value=<?php echo $price?> readonly=true style="width: 6rem">
+									</td>
+									<td>
+										<button onclick="minute(<?php echo $row['id']?>)">-</button>
+										<input type='number' min="0" style="width:5rem; text-align: center" readonly=true id="quantity<?php echo $row['id']?>"  value='<?php echo $quantity?>'>
+										<button onclick="plus(<?php echo $row['id']?>)">+</button>
+									</td>
+									<td >
+										<span id="total<?php echo $row['id']?>" value='<?php echo $total?>'><?php echo number_format($total,0,',','.');?></span>
+									</td>
+									<td>
+										<form action="" method="post">
+											<button name="delete" value="<?php echo $row['id']?>">Delete</button>
+										</form>
+									</td>
+								</tr>
+								<?php					
+							}
+						}
+					}
+				}
+						?>
+							</tbody>
+						</table>
+					</div>
+				</tbody>
 		</div>
 	</section> <!--/#cart_items-->
 
 	<section id="do_action">
 		<div class="container">
 			<div class="heading">
+			<p></p>
+			<br>
 				<h3>What would you like to do next?</h3>
 				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
 			</div>
@@ -215,10 +205,9 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Eco Tax <span>$2</span></li>
+							<li>Cart Sub Total <?php echo $allTotal?><sup> đ</sup></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
+							<li>Total <?php echo number_format($allTotal,0,',','.');?><sup> đ</sup></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
 							<a class="btn btn-default check_out" href="">Check Out</a>
@@ -228,12 +217,13 @@
 		</div>
 	</section><!--/#do_action-->
 
-	<?php include "footer.php";?>
-
-    <script src="js/jquery.js"></script>
+	<?php include "footer.php"?>
+    
+	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.scrollUp.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
+	<script src="bb.js"></script>
 </body>
 </html>

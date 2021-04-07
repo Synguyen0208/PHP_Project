@@ -64,7 +64,7 @@ if (isset($_POST['login']))
         echo "Incorrect password. Please re-enter. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
     }
-     
+    
     //Lưu tên đăng nhập
 	if(isset($_POST['check'])){
 	$_SESSION['id']=$row['id'];

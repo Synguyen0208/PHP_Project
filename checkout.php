@@ -1,3 +1,9 @@
+<?php echo $_GET['id'];
+$a=explode(',', $_GET['id']);
+echo $a['0'];
+echo $a['1'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

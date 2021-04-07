@@ -73,7 +73,7 @@
 								?>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.php"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <sup style="color: blue; font-size: 1rem"><b><?php echo $n;?></b></sup></a></li>
 								<?php
 									if(isset($_SESSION['username'])){
 										echo "<li><a href='logout.php'><i class='fa fa-lock'></i> Logout</a></li>";
