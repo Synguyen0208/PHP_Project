@@ -19,7 +19,11 @@
 //     // Remove the product from the shopping cart
 //     unset($_SESSION['cart'][$_GET['remove']]);
 // }
-  
+$id_cus=$_SESSION['id'];
+$sql3="select count(id) as n from cart where id_cus=$id_cus";
+$result=mysqli_query($conn, $sql3);
+$row1=mysqli_fetch_assoc($result);
+$n=$row1['n'];
 ?> 
 
 
@@ -115,7 +119,7 @@
 								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.php"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart<sup style="color: blue; font-size: 1rem"><b><?php echo $n;?></b></sup></a></li>
 								<li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
@@ -219,7 +223,7 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-								<th>ID</th>
+								
                                     <th>ITEM</th>
                                     <th>DESCRIPTION</th>
                                     <th>PRICE</th>
@@ -228,7 +232,7 @@
                                     <th>DELETE</th>
                                 </tr>
                             </thead>
-							<form action="submit.php" method="post">
+							
                             <tbody class="text-center">
 							<?php
 								$query="select * from cart";
@@ -253,9 +257,7 @@
 											if ($id_cart==$id_pro){
 												?>
 								<tr>
-								<td>
-								<input type='text' name='idd' value='$id_cart' readonly>
-								</td>
+								
 								<td>
 								<img src='<?php echo $image?>' height='200' width='250' >
 								</td>
@@ -264,16 +266,20 @@
 								<?php echo $title?>
 								</td>
 								<td >
-								<input id="price" value=<?php echo $price?> readonly=true style="width: 6rem">
+								<input id="price<?php echo $row['id']?>" value=<?php echo $price?> readonly=true style="width: 6rem">
 								</td>
 								<td>
-								<input type='number' id="quantity" onChange="document.getElementById('total').innerHTML=document.getElementById('price').value*document.getElementById('quantity').value" value='<?php echo $quantity?>'>
+									<button onclick="minute(<?php echo $row['id']?>)">-</button>
+									<input type='number' min="0" style="width:5rem; text-align: center" readonly=true id="quantity<?php echo $row['id']?>"  value='<?php echo $quantity?>'>
+									<button onclick="plus(<?php echo $row['id']?>)">+</button>
 								</td>
 								<td >
-								<span id="total" value='<?php echo $total?>'><?php echo $total?></span>
+								<span id="total<?php echo $row['id']?>" value='<?php echo $total?>'><?php echo $total?></span>
 								</td>
 								<td>
-								<a href='submit.php?id=$id_cart'  name='submit'>SUBMIT</a>
+									<form action="" method="post">
+										<button name="delete" value="<?php echo $row['id']?>">Delete</button>
+									</form>
 								</td>
 								</tr>
 								<?php
@@ -284,7 +290,7 @@
 								?>
 
 							</tbody>
-							</form>
+							
 							</table>
 						</div>
 				</tbody>
@@ -359,7 +365,7 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <?php echo $total; ?><sup> $</sup></li>
+							<li>Cart Sub Total <?php echo $total?><sup> $</sup></li>
 							<li>Shipping Cost <span>Free</span></li>
 							<li>Total <?php echo $total; ?><sup> $</sup></li>
 						</ul>
@@ -536,5 +542,6 @@
 	<script src="js/jquery.scrollUp.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
+	<script src="bb.js"></script>
 </body>
 </html>

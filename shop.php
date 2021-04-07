@@ -1,9 +1,28 @@
-<?php
-	require_once('connect.php');
-	$prd=0;
-	if(isset($_SESSION['cart'])){
-		$prd= count($_SESSION['cart']);
+<?php require_once "connect.php";
+$_SESSION['id']=8;
+if(array_key_exists('addtocart', $_POST)){
+	if(isset($_SESSION['id'])){
+		$id_pro=$_POST['addtocart'];
+		$id_cus=$_SESSION['id'];
+		$sql="insert into cart(id_cus, id_pro, quantity) values ($id_cus, $id_pro, 1)";
+		mysqli_query($conn, $sql);
+		$result=mysqli_query($conn, $sql);
+		
+		
+		if(!$result){
+			$sql1="update cart set quantity=quantity+1 where id_cus=$id_cus and id_pro=$id_pro";
+			mysqli_query($conn, $sql1);
+		}
+		
 	}
+	
+}
+$id_cus=$_SESSION['id'];
+$sql3="select count(id) as n from cart where id_cus=$id_cus";
+$result=mysqli_query($conn, $sql3);
+$row1=mysqli_fetch_assoc($result);
+$n=$row1['n'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,9 +48,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-
-</head><!--/head-->
-
+</head>
 <body>
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
@@ -97,7 +114,7 @@
 								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.php"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <sup style="color: blue; font-size: 1rem"><b><?php echo $n;?></b></sup></a></li>
 								<li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
@@ -299,66 +316,45 @@
 						
 					</div>
 				</div>
-				<?php
-					$ok=1;
-					if(isset($_SESSION['cart']))
-					{
-						foreach($_SESSION['cart'] as $k=>$v)
-						{
-							if(isset($v))
-							{
-								$ok=2;
-							}
-						}
-					}
-					if ($ok != 2)
-					{
-						echo 'Không có sản phẩm nào trong giỏ hàng!';
-					} else {
-						$items = $_SESSION['cart'];
-						echo '<p>Ban dang co <a href="cart.php">'.count($items).' mon hang trong gio hang</a></p>';
-					}
-				?>
 				
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
-						<div class="row">
-						<?php
-							$sql ="SELECT * FROM product";
-							$result = mysqli_query($conn,$sql);
-							while($kq= mysqli_fetch_assoc($result)){
+						<?php $sql="select * from product";
+							$result=mysqli_query($conn, $sql);
+							while($row=mysqli_fetch_assoc($result)){
 						?>
-							<div class="col-md-3 col-sm-6 text-center">
-								<div class="product-image-wrapper">
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
 									<div class="productinfo text-center">
-										<img src="<?php echo $kq['image']; ?>" alt="" width="100%" height="300px"/>
-										<p></p>
-										<?php  echo $kq['price']; ?><sup> $</sup>
-										<p></p>
-										<?php  echo $kq['name']; ?>
-										<p></p>
-										<a href="cart.php?id=<?php echo $kq['id']; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-										<a href="cart.php?id=<?php echo $kq['id']; ?>" class="btn btn-default add-to-cart">Buy</a>
+										<img src="<?php echo $row['image']?>"  height="200rem" alt="" />
+										<h2><?php echo $row['price']?></h2>
+										<p><?php echo $row['name']?></p>
+										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										<a href="#" class="btn btn-default add-to-cart"><i class=""></i>Buy product</a>
 									</div>
-									<!-- <div class="product-overlay">
+									<div class="product-overlay">
+										<form action="" method="post">
 										<div class="overlay-content">
-											<?php  echo $kq['price']; ?><sup> $</sup>
-											<p></p>
-											<?php  echo $kq['name']; ?>
-											<p></p>
-											<a href="cart.php?id=<?php echo $kq['id']; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart </a>
-											<a href="cart.php?id=<?php echo $kq['id']; ?>" class="btn btn-default add-to-cart">Buy</a>
-											
+											<h2><?php echo $row['price']?></h2>
+											<p><?php echo $row['name']?></p>
+											<button name="addtocart" type="submit" value="<?php echo $row['id']?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+											<a href="#" class="btn btn-default add-to-cart"><i class=""></i>Buy product</a>
 										</div>
-									</div> -->
-									
+										</form>
+									</div>
 								</div>
-								
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href=""><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a href=""><i class="fa fa-plus-square"></i>Add to compare</a></li>
+									</ul>
+								</div>
 							</div>
-							<?php } ?>
 						</div>
-					
+						<?php }?>
+						
 					</div><!--features_items-->
 				</div>
 			</div>
@@ -521,12 +517,8 @@
 			</div>
 		</div>
 		
-
-		
-
-	</footer><!--/Footer-->
+	</footer>
 	
-
   
     <script src="js/jquery.js"></script>
 	<script src="js/price-range.js"></script>
@@ -534,6 +526,5 @@
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
-	
 </body>
 </html>
