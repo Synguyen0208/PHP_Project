@@ -20,7 +20,7 @@
       
      // Nếu chưa kết nối thì thực hiện kết nối
      if (!$conn){
-         $conn = mysqli_connect('localhost', 'root', '', 'project') or die ('Can not connect to database');
+         $conn = mysqli_connect('localhost', 'root', '', 'php_project') or die ('Can not connect to database');
          // Thiết lập font chữ kết nối
          mysqli_set_charset($conn, 'utf8');
      }
@@ -80,38 +80,24 @@
     {
         echo "Email này không hợp lệ. Vui long nhập email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
-    }
-            
+    }          
     //Kiểm tra email đã có người dùng chưa
-    $sql2 = "SELECT email FROM members WHERE email='$email'";
+    $sql2 = "SELECT email FROM account WHERE email='$email'";
     if (mysqli_num_rows(mysqli_query($conn, $sql2)) > 0)
     {
         echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
     }
     
-    //Lưu thông tin thành viên vào bảng
     $sql3 = "
             INSERT INTO account(phone, user, password, code, email) VALUES
             ('$phone','$username','$password','$code','$email')
     ";
      
-    // Thực hiện câu truy vấn
     $query = mysqli_query($conn, $sql3);
-    if($query){
-        echo "HIHIHIHIH";
-        exit();
-    }
-
-                     
-    //Thông báo quá trình lưu
-
-    
-
-    
+   
     if ($query)
     {
-
         $mail->CharSet = "UTF-8";
                     $mail->SMTPDebug = 0;                                 // Enable verbose debug output
                     $mail->isSMTP();                                      // Set mailer to use SMTP
@@ -131,7 +117,7 @@
                     $mail->AltBody = "Chào mừng bạn đến với chúng tôi! "; //None HTML
                     $result = $mail->send();
 			
-        header('Location:');//echo "Quá trình đăng ký thành công. <a href='/'>Về trang chủ</a>";
+        header('Location:login.php');
     }
     else{
 

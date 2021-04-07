@@ -68,8 +68,8 @@ if (isset($_POST['login']))
     //Lưu tên đăng nhập
 	if(isset($_POST['check'])){
 	$_SESSION['id']=$row['id'];
-    $_SESSION['username'] = $username;
-	$_SESSION['password']=$password;
+    $_SESSION['username'] = $row['user'];
+	$_SESSION['password']=$row['password'];
 	$_SESSION['email']=$row['email'];
 	$_SESSION['phone']=$row['phone'];
 	}
