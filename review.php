@@ -5,7 +5,7 @@
     connect_db();
     if(isset($_POST['comment'])){
         $id = addslashes($_POST['id']);
-        $phone = addslashes($_POST['phone']);
+        $account_id = addslashes($_POST['account_id']);
         $name = addslashes($_POST['name']);
         $mail = addslashes($_POST['mail']);
         $comm = addslashes($_POST['comm']);
@@ -15,11 +15,11 @@
         echo $id.'<br>';
         echo $phone;
         $sql = "
-            INSERT INTO review (pro_id, account_phone, review) VALUES
-            ('$id','$phone','$comm')
+            INSERT INTO review (pro_id, account_id, review) VALUES
+            ($id,$account_id,'$comm')
     ";
       //$dt->command("insert into `review`(pro_id, account_phone, review) values('$id', '$phone','$comm'");
     $query = mysqli_query($conn, $sql);
-      header('Location: product-details.php');
+      header('Location: product-details.php?id='.$id.'');
     }
 ?>

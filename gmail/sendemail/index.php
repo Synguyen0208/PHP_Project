@@ -49,10 +49,14 @@
             <div class = "container">
                 <div class = "error"><?= isset($error) ? $error : "Gửi email thành công" ?></div>                
             </div>
-       
+        <?php //} 
+        
+        
+       // else {
+            ?>
 
 
 
-<?php } ?>
+<?php //} ?>
     </body>
 </html>

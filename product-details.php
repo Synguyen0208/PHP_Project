@@ -25,7 +25,7 @@
 	<?php
 		session_start();
 		
-		if (isset($_SESSION['username']) && $_SESSION['password'] == true && $_SESSION['phone'] == true && $_SESSION['email'] == true) {
+		if (isset($_SESSION['username']) && $_SESSION['password'] == true && $_SESSION['phone'] == true && $_SESSION['email'] == true && $_SESSION['id']==true) {
 			$welcomeMessage = "Welcome to the member's area, " . $_SESSION['username'] . "!";
 			} 
 		else {
@@ -575,7 +575,7 @@
 											<input type="text" placeholder="Your Name" name="name" value="<?php echo $_SESSION['username'] ?>"/> 
 											<input type="email" name="mail" value="<?php echo $_SESSION['email'] ?>"  placeholder="Email Address"/>
 											<input type="hidden" name="id" value="<?php echo $data['id']; ?>"/>
-											<input type="hidden" name="phone" value="<?php echo $_SESSION['phone']; ?>"/>
+											<input type="hidden" name="account_id" value="<?php echo $_SESSION['id']; ?>"/>
 										</span>
 										<textarea name="comm" ></textarea>
 										<b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
