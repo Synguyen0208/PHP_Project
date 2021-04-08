@@ -19,7 +19,7 @@ if(array_key_exists('addtocart', $_POST)){
 		//echo $id_pro;
 		$id_cus=$_SESSION['id'];
 		$sql="insert into cart(id_cus, id_pro, quantity) values ($id_cus, $id_pro, 1)";
-		mysqli_query($conn, $sql);
+		
 		$result=mysqli_query($conn, $sql);
 		
 		if(!$result){

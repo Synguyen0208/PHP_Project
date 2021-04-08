@@ -48,7 +48,7 @@ if (isset($_POST['login']))
     }
 
     $password = md5($password);
-	$sql = "SELECT id, phone, user, password, email FROM account WHERE user='$username'";
+	$sql = "SELECT id, phone, user, password, email, address FROM account WHERE user='$username'";
      
     //Kiểm tra tên đăng nhập có tồn tại không
     $query = mysqli_query($conn, $sql);
@@ -72,6 +72,7 @@ if (isset($_POST['login']))
 	$_SESSION['password']=$row['password'];
 	$_SESSION['email']=$row['email'];
 	$_SESSION['phone']=$row['phone'];
+	$_SESSION['address']=$row['address'];
 	}
     header('Location:index.php');
 	die();

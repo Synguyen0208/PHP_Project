@@ -11,17 +11,8 @@
 	require 'connect.php';
 	$dt = new database;
 	connect_db();
-	//Xoa san pham trong gio
-	if(array_key_exists('delete', $_POST)){
-        $id=$_POST['delete'];
-        mysqli_query($conn, "delete from cart where id=$id");
-    }
-	
-	$id_cus=$_SESSION['id'];
-	$sql3="select count(id) as n from cart where id_cus=$id_cus";
-	$result=mysqli_query($conn, $sql3);
-	$row1=mysqli_fetch_assoc($result);						
-	$n=$row1['n'];
+
+	include "cartfunction.php";
 ?> 
 
 
@@ -32,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Cart | E-Shopper</title>
+    <title>Cart</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
@@ -77,7 +68,7 @@
 							
                             <tbody class="text-center">
 							<?php
-								$query="select * from cart";
+								$query="select * from cart where id_cus = {$_SESSION['id']}";
 								$query2="select * from product";
 								$result1=mysqli_query($conn,$query);
 								$result2=mysqli_query($conn,$query2);
@@ -112,19 +103,23 @@
 									<td >
 										<input id="price<?php echo $row['id']?>" value=<?php echo $price?> readonly=true style="width: 6rem">
 									</td>
+									<form action="" method="post">
 									<td>
-										<button onclick="minute(<?php echo $row['id']?>)">-</button>
-										<input type='number' min="0" style="width:5rem; text-align: center" readonly=true id="quantity<?php echo $row['id']?>"  value='<?php echo $quantity?>'>
-										<button onclick="plus(<?php echo $row['id']?>)">+</button>
+										<form action="" method="post">
+										<button name="cartAdd" value="<?php echo $row['id']?>" onclick="minute(<?php echo $row['id']?>)">-</button>
+                                        	<input type='number' min="0" name="quantity" style="width:5rem; text-align: center" readonly=true id="quantity<?php echo $row['id']?>"  value='<?php echo $quantity?>'>
+                                        <button name="cartAdd" value="<?php echo $row['id']?>" onclick="plus(<?php echo $row['id']?>)">+</button>
+										</form>
 									</td>
 									<td >
 										<span id="total<?php echo $row['id']?>" value='<?php echo $total?>'><?php echo number_format($total,0,',','.');?></span>
 									</td>
-									<td>
+									<td>	
 										<form action="" method="post">
 											<button name="delete" value="<?php echo $row['id']?>">Delete</button>
 										</form>
 									</td>
+									
 								</tr>
 								<?php					
 							}
@@ -210,7 +205,7 @@
 							<li>Total <?php echo number_format($allTotal,0,',','.');?><sup> đ</sup></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="">Check Out</a>
+							<a class="btn btn-default check_out" href="checkout.php">Check Out</a>
 					</div>
 				</div>
 			</div>
@@ -224,6 +219,6 @@
 	<script src="js/jquery.scrollUp.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
-	<script src="bb.js"></script>
+	<script src="js/bb.js"></script>
 </body>
 </html>

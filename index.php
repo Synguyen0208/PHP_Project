@@ -37,11 +37,7 @@ else {
 	$dt = new database;
 	require "connect.php";
 	connect_db();
-	$id_cus=$_SESSION['id'];
-	$sql3="select count(id) as n from cart where id_cus=$id_cus";
-	$result=mysqli_query($conn, $sql3);
-	$row1=mysqli_fetch_assoc($result);						
-	$n=$row1['n'];
+	include "cartfunction.php";
 ?>
 	<?php include "header.php" ;?>
 	<section id="slider" style="background-image: url('https://banghieu365.com/wp-content/uploads/2021/03/Phong-nen-mau-xanh-cong-ty-365_1.jpg'"><!--slider-->
