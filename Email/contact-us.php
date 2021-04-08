@@ -176,7 +176,7 @@ $n=$row1['n'];
 	    			<div class="contact-form">
 	    				<h2 class="title text-center">Get In Touch</h2>
 	    				<div class="status alert alert-success" style="display: none"></div>
-				    	<form id="main-contact-form" class="contact-form row" name="contact-form" method="post" >
+				    	<form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="phpsentmail.php">
 				            <div class="form-group col-md-6">
 				                <input type="text" name="name" class="form-control" required="required" placeholder="Name">
 				            </div>
@@ -195,44 +195,7 @@ $n=$row1['n'];
 				        </form>
 	    			</div>
 	    		</div>
-				<?php
-					use PHPMailer\PHPMailer\PHPMailer;
-					ini_set("display_errors",0);
-					require_once 'PHPMailer-master/src/Exception.php';
-					require_once 'PHPMailer-master/src/PHPMailer.php';
-					require_once 'PHPMailer-master/src/SMTP.php';
 
-					$mail = new PHPMailer();
-					$email=$_POST['email'];
-					$alert = '';
-					try{
-						$mail->isSMTP();
-						$mail->Host = 'smtp.gmail.com';
-						$mail->SMTPAuth = true;
-						$mail->Username = 'hangqt3621@gmail.com'; 
-						$mail->Password = 'Hang@362174';
-						$mail->Port = 465;
-						$mail->SMTPSecure = "ssl";
-
-						$mail->setFrom('hangqt3621@gmail.com', 'Admin');
-						$mail->addAddress($email);
-
-						$mail->isHTML(true);
-						$mail->Subject = "WELCOME TO E-Shopper";
-						$mail->Body = "Luong Khua Sy team";
-
-						$mail->send();
-						$alert = '<div class="alert-success"> 
-									<span>Message Sent! Thank you for contacting us.</span>
-									</div>';
-					} catch (Exception $e){
-						$alert = '<div class="alert-error">
-									<span>'.$e->getMessage().'</span>
-								</div>';
-					}                                                   
-
-					//header("location: index.php")                                                                                        
-					?>
 				
 	    		<div class="col-sm-4">
 	    			<div class="contact-info">
