@@ -1,4 +1,5 @@
 var product;
+
 function change(k){
     product = JSON.parse(localStorage.getItem('listProduct'));
     for(var i in product){
