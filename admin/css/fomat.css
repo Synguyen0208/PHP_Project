@@ -38,6 +38,9 @@ button{
 .modal-body{
     background-color: indianred;
 }
+td{
+    text-align: center;
+}
 .menu2 div{
     margin-left: 0.5rem;
 }

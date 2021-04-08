@@ -129,17 +129,17 @@ $conn=new connect_database("php_project");
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">SUPPLY PARTNER ADMIN</h1>
+                        <h1 class="mt-4">ACCOUNT ADMIN MANAGEMENT</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">SUPPLY PARTNER</li>
+                            <li class="breadcrumb-item active">ACCOUNT ADMIN</li>
                         </ol>
-                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Add a supplier</button>  
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Add account admin</button>  
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Product management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_product.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_product.php">View Details<sup><b style="color: white"><?php echo $count['quan_pro']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-warning text-white mb-4">
                                     <div class="card-body">Supply partner management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_company.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_company.php">View Details<sup><b style="color: white"><?php echo $count['quan_com']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -157,16 +157,16 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-success text-white mb-4">
                                     <div class="card-body">Account user</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="account_user.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="account_user.php">View Details<sup><b style="color: white"><?php echo $count['quan_acc']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
+                                    <div class="card-body">Order management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="order_manager.php">View Details <sup><b style="color: white"><?php echo $count['quan_or']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -276,30 +276,27 @@ $conn=new connect_database("php_project");
         <div class="modal-content">
             <form method="POST" id="form" action="" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1>Add supply partner</h1>
+                    <h1>Add account admin</h1>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <label for="">Name company</label><br>
-                                <input type="text" name="name" placeholder="Nhập tên công ty" required><br>
-                                <label for="">Address</label><br>
-                                <input type="text" name="address" placeholder="Nhập địa chỉ công ty" required><br>
-                                <label for="">Manager</label><br>
-                                <input type="text" name="manager" placeholder="Giám đốc công ty" required><br>
-                                <label for="">License number</label>
-                                <input type="text" name="license" id="" placeholder="Mã số thuế" required><br>
-                                <label for="">Phone</label>
-                                <input type="phone" name="phone" id="" placeholder="Số điện thoại" required><br>
                                 <label for="">Email</label><br>
-                                <input type="email" name="email" placeholder="Email"><br>
+                                <input type="email" name="email" placeholder="Input email admin" required><br>
+                                <label for="">Password</label><br>
+                                <input type="password" name="password" placeholder="Input password" required><br>
+                                <label for="">Status</label><br>
+                                <select name="status" id="">
+                                    <option value="accept">Accept</option>
+                                    <option value="Not Accept">Not Accept</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="addCom">
+                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="addAccAD">
                         Add
                     </button>
                 </div>

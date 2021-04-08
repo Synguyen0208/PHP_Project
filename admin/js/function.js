@@ -8,13 +8,13 @@ function change(k){
             document.getElementById('title').value=product[i]['title'];
             document.getElementById('price').value=product[i]['price'];
             document.getElementById('discount').value=product[i]['discount'];
-            document.getElementById('quantity').value=product[i]['quantity'];
+            
             document.getElementById('image').value=product[i]['image'];
             document.getElementById('img').src=product[i]['image'];
             
             document.getElementById('MFG').value=product[i]['MFG'];
             document.getElementById('ED').value=product[i]['ED'];
-            document.getElementById('mass').value=product[i]['mass'];
+            document.getElementById('masss').value=parseInt(product[i]['mass']);
 
             var e = document.getElementById("industry");
             var strUser = e.options[e.selectedIndex].value=product[i]['industry'];

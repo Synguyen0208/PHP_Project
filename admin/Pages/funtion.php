@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
 require "class.php";
-include "sendMail/sendMail.php";
+include "../sendMail/sendMail.php";
 session_start();
 $_SESSION['dem']=1;
 class connect_database{
@@ -35,6 +35,7 @@ class connect_database{
     }
     public function insert($state){
         $sql="insert into ".$state;
+        
         return $this->checkError($this->execute($sql));
     }
     public function update($state, $id){
@@ -55,6 +56,9 @@ class connect_database{
 
 
 $conn=new connect_database("php_project");
+$sql=" count(id) as quan_pro, (SELECT count(id) from account_admin) as quan_accAD, (SELECT COUNT(id) FROM company) as quan_com, (SELECT COUNT(id) FROM account) as quan_acc, (SELECT COUNT(id)  from orders) as quan_or from product";
+$result=$conn->select($sql);
+$count=mysqli_fetch_array($result);
 //PRODUCT
 function add_product(){
     if(isset($_FILES['image-product'])){
@@ -115,7 +119,7 @@ function add_product(){
             unset($_SESSION['err']);
             move_uploaded_file($file_tmp,"C:/xampp/htdocs/Image/".$file_name);
             $image='/Image/'.$file_name;
-            $sql="product(name, price, discount, title, ED, MFG, image, mass, industry_id, id_com, quantity)
+            $sql="product(name, price, sell_price, title, ED, MFG, image, mass, industry_id, id_com, quantity)
             values('$name', $price, $discount, '$title', '$ED', '$MFG', '$image', $mass, $category, $idCom, $quantity);";
             $GLOBALS['conn']->insert($sql);
         }
@@ -363,6 +367,13 @@ function changePassword(){
     $sql="update account_admin set password ='$newPassword' where email='$email'";
     $GLOBALS['conn']->execute($sql);
 }
+function addAccountAdmin(){
+    $email=$_POST['email'];
+    $password=$_POST['password'];
+    $status=$_POST['status'];
+    $sql=" account_admin(email, password, status) values ('$email', '$password', '$status')";
+    $GLOBALS['conn']->insert($sql);
+}
 if(array_key_exists('add', $_POST)){   
     add_product();
 }
@@ -418,5 +429,13 @@ if(array_key_exists('Update', $_POST)){
 if(array_key_exists('deleteAccountAdmin', $_POST)){  
     $id=$_POST['deleteAccountAdmin'];
     $GLOBALS['conn']->delete("account_admin", $id);
+}
+if(array_key_exists('addAccAD', $_POST)){  
+    addAccountAdmin();
+}
+if(array_key_exists('import', $_POST)){  
+    $id=$_POST['import'];
+    $quantity=$_POST['Quantity'];
+    $GLOBALS['conn']->insert(" manager_stock(id_pro, quantity, date_added) values($id, $quantity, curdate())");
 }
  ?>

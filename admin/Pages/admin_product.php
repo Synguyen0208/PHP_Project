@@ -131,9 +131,9 @@ $conn=new connect_database("php_project");
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Product management</div>
+                                    <div class="card-body">Account user management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="account_user.php">View Details<sup><b style="color: white"><?php echo $count['quan_acc']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -142,7 +142,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-warning text-white mb-4">
                                     <div class="card-body">Supply partner management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_company.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_company.php">View Details<sup><b style="color: white"><?php echo $count['quan_com']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -151,16 +151,16 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-success text-white mb-4">
                                     <div class="card-body">Account admin management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="account_admin.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="account_admin.php">View Details<sup><b style="color: white"><?php echo $count['quan_accAD']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
+                                    <div class="card-body">Order management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="order_manager.php">View Details<sup><b style="color: white"><?php echo $count['quan_or']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -209,7 +209,7 @@ $conn=new connect_database("php_project");
                                         <tbody>
                                         <?php 
                                        
-                                            $result = $GLOBALS['conn']->select(" pro.id, pro.name,quantity, price, discount, title, ED, MFG, image, mass, industry, com.name as company FROM ((product pro INNER JOIN product_industry ind ON pro.industry_id=ind.id) INNER JOIN company com on pro.id_com=com.id)");
+                                            $result = $GLOBALS['conn']->select(" pro.id, pro.name,quantity, price, sell_price, title, ED, MFG, image, mass, industry, com.name as company FROM ((product pro INNER JOIN product_industry ind ON pro.industry_id=ind.id) INNER JOIN company com on pro.id_com=com.id)");
                                             $arr=array();
                                             while ($row = mysqli_fetch_array($result)) {
                                                 $arr[]=array(
@@ -217,7 +217,7 @@ $conn=new connect_database("php_project");
                                                     'name'=>$row['name'],
                                                     'price'=>$row['price'],
                                                     'mass'=>$row['mass'],
-                                                    'discount'=>$row['discount'],
+                                                    'discount'=>$row['sell_price'],
                                                     'quantity'=>$row['quantity'],
                                                     'title'=>$row['title'],
                                                     'image'=>$row['image'],
@@ -235,13 +235,14 @@ $conn=new connect_database("php_project");
                                                 <?php echo $row['price']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['discount']?>
+                                                <?php echo $row['sell_price']?>
                                             </td>
                                             <td>
                                                 <?php echo $row['mass']?>
                                             </td>
                                             <td>
                                                 <?php echo $row['quantity']?>
+                                                <button data-toggle="modal" data-target="#myModal3" onclick="document.getElementById('import').value=<?php echo $row['id']?>" style="float: right">+</button>
                                             </td>
                                             <td>
                                                 <?php echo $row['title']?>
@@ -325,20 +326,20 @@ $conn=new connect_database("php_project");
                                 </div>
                                 <div class="in_price">
                                     <div>
-                                        <label for="">Giá sản phẩm</label><br>
+                                        <label for="">Giá nhập sản phẩm</label><br>
                                         <input type="number" min="1" name="price-product"
                                             placeholder="Nhập giá sản phẩm" required>
                                     </div>
                                     <div>
-                                        <label for="">Phần trăm giảm</label><br>
-                                        <input type="number" min="1" max="100" name="discount-price-product"
-                                            placeholder="Nhập phần trăm giảm" required>
+                                        <label for="">Giá bán</label><br>
+                                        <input type="number"  name="discount-price-product"
+                                            placeholder="Nhập giá bán" required>
                                     </div>
                                 </div>
                                 <label for="">Số lượng sản phẩm</label><br>
                                 <input type="number" min="0" name="quantity-product" placeholder="Nhập số lượng sản phẩm" required><br>
                                 <label for="">Khối lượng sản phẩm</label><br>
-                                <input type="number" min="0" name="mass-product" placeholder="Nhập khối lượng sản phẩm" required><br>
+                                <input type="number" min="0" name="mass-product" id="mass" placeholder="Nhập khối lượng sản phẩm" required><br>
                                 <label for="">Ngày sản xuất</label>
                                 <input type="date" name="ED" id="" required><br>
                                 <label for="">Hạn sử dụng</label>
@@ -404,20 +405,19 @@ $conn=new connect_database("php_project");
                                 </div>
                                 <div class="in_price">
                                     <div>
-                                        <label for="">Giá sản phẩm</label><br>
+                                        <label for="">Giá nhập sản phẩm</label><br>
                                         <input type="number" id="price" min="1" name="price-productt"
                                             placeholder="Nhập giá sản phẩm" required>
                                     </div>
                                     <div>
-                                        <label for="">Phần trăm giảm</label><br>
+                                        <label for="">Giá bán</label><br>
                                         <input type="number" id="discount" min="1" max="100" name="discount-price-productt"
-                                            placeholder="Nhập phần trăm giảm" required>
+                                            placeholder="Nhập bán" required>
                                     </div>
                                 </div>
-                                <label for="">Số lượng sản phẩm</label><br>
-                                <input type="number" min="0" name="quantity-productt" id="quantity" placeholder="Nhập số lượng sản phẩm" required><br>
+                                
                                 <label for="">Khối lượng sản phẩm</label><br>
-                                <input type="number" min="0" name="mass-productt" id="mass" placeholder="Nhập khối lượng sản phẩm" required><br>
+                                <input type="number" min="0" name="mass-productt" id="masss" placeholder="Nhập khối lượng sản phẩm" required><br>
                                 <label for="">Ngày sản xuất</label>
                                 <input type="date" name="EDD" id="ED" required><br>
                                 <label for="">Hạn sử dụng</label>
@@ -454,6 +454,33 @@ $conn=new connect_database("php_project");
             </div>
         </form>
     </div>
+</div>
+<div id="myModal3" class="modal">
+    <div class="modal-content">
+    <form method="POST" style="margin-bottom: 0px"  action="" enctype="multipart/form-data">
+            <div class="modal-header">
+                <h1>Import goods</h1>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Input quantity</label><br>
+                            <input type="number" min=0 id="addStock" name="Quantity" placeholder="Input quanity product">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        
+        <div class="modal-footer">
+            
+                <button name="import" type="submit" class="btn btn-primary btn-lg" id="import" value="">Import</button>
+            
+        </div>
+        </form>
+    </div>
+    
 </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="../js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

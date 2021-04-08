@@ -130,14 +130,12 @@ $conn=new connect_database("php_project");
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">USER ACCOUNT ADMIN</h1>
-                       
-                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Add a supplier</button>  
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Product management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_product.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_product.php">View Details<sup><b style="color: white"><?php echo $_SESSION['count']['quan_pro']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -146,7 +144,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-warning text-white mb-4">
                                     <div class="card-body">Supply partner management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_company.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="admin_company.php">View Details<sup><b style="color: white"><?php echo $_SESSION['count']['quan_com']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -155,7 +153,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-success text-white mb-4">
                                     <div class="card-body">Account admin management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="account_admin.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="account_admin.php">View Details<sup><b style="color: white"><?php echo $_SESSION['count']['quan_accAD']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -164,7 +162,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-danger text-white mb-4">
                                     <div class="card-body">Order management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="order_manager.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="order_manager.php">View Details<sup><b style="color: white"><?php echo $_SESSION['count']['quan_or']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -186,7 +184,7 @@ $conn=new connect_database("php_project");
                                                 <th>User name</th>
                                                 <th>Password</th>
                                                 <th>Status</th>
-                                                <th></th>
+                                                
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -197,7 +195,7 @@ $conn=new connect_database("php_project");
                                                 <th>User name</th>
                                                 <th>Password</th>
                                                 <th>Status</th>
-                                                <th></th>
+                                                
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -231,7 +229,7 @@ $conn=new connect_database("php_project");
                                             </td>
                                             <td>
                                                 <?php echo $row['password']?><br>
-                                                <button data-toggle="modal" name="change"  data-target="#myModal1" onclick="changeAdmin(<?php echo $row['id']?>)">Change password</button>
+                                                
                                             </td>
                                             <td>
                                                 <form action="" method="post">
@@ -245,14 +243,7 @@ $conn=new connect_database("php_project");
                                                 </label>
                                                 
                                             </td>
-                                            <td>
-                                                
-                                                <form action="" method="post">
-                                                <button type="submit" name="deleteAccountAdmin" value="<?php echo $row['id']?>"><img src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/82-512.png" style="width: 2rem; height: 2rem" alt=""></button>
-                                                <input type="text" name="bool"  id="bool" style="display: none" value="false">
-                                                </form>
-                                                
-                                            </td>
+                                           
                                             
                                         </tr>
                                         
