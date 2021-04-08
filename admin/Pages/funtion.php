@@ -56,7 +56,7 @@ class connect_database{
 
 
 $conn=new connect_database("php_project");
-$sql=" count(id) as quan_pro, (SELECT count(id) from account_admin) as quan_accAD, (SELECT COUNT(id) FROM company) as quan_com, (SELECT COUNT(id) FROM account) as quan_acc, (SELECT COUNT(id)  from orders) as quan_or from product";
+$sql=" count(id) as quan_pro, (SELECT count(id) from account_admin) as quan_accAD, (SELECT COUNT(id) FROM company) as quan_com, (SELECT COUNT(id) FROM account) as quan_acc, (SELECT COUNT(id)  from orders) as quan_or, (SELECT count(code) from shipping_company) as shipping from product";
 $result=$conn->select($sql);
 $count=mysqli_fetch_array($result);
 //PRODUCT
@@ -224,7 +224,7 @@ function update_company(){
     $license=$_POST['license'];
     $phone=$_POST['phone'];
     $email=$_POST['email'];
-    $sql="company set name='$name', address='$address', manager='$manager', license_number='$license', phone='$phone', email='email' ";
+    $sql="company set name='$name', address='$address', manager='$manager', license_number='$license', phone='$phone', email='$email' ";
     $GLOBALS['conn']->update($sql, $id);
 
 }
@@ -374,6 +374,25 @@ function addAccountAdmin(){
     $sql=" account_admin(email, password, status) values ('$email', '$password', '$status')";
     $GLOBALS['conn']->insert($sql);
 }
+function Shipping($index){
+    $code=$_POST['code'];
+    $name=$_POST['name'];
+    $address=$_POST['address'];
+    $phone=$_POST['phone'];
+    $email=$_POST['email'];
+    $area=$_POST['area'];
+    $manager=$_POST['manager'];
+    if($index==1){
+        $sql=" shipping_company(code, name, address,phone, email, area,  manager) values($code, '$name', '$address', '$phone', '$email','$area', '$manager');";
+        if(!$GLOBALS['conn']->insert($sql)){
+            echo "<script>alert('Code already exists')</script>";
+        }
+    }
+    if($index==2){
+        $sql="update shipping_company set name='$name', address='$address', manager='$manager', area='$area', phone='$phone', email='$email' where code=$code ";
+        $GLOBALS['conn']->execute($sql);
+    }
+}
 if(array_key_exists('add', $_POST)){   
     add_product();
 }
@@ -432,6 +451,12 @@ if(array_key_exists('deleteAccountAdmin', $_POST)){
 }
 if(array_key_exists('addAccAD', $_POST)){  
     addAccountAdmin();
+}
+if(array_key_exists('addShipping', $_POST)){  
+    Shipping(1);
+}
+if(array_key_exists('editShipping', $_POST)){  
+    Shipping(2);
 }
 if(array_key_exists('import', $_POST)){  
     $id=$_POST['import'];

@@ -39,7 +39,21 @@ function changeCom(k){
     }
     
 }
-
+function changeShipping(k){
+    shipping = JSON.parse(localStorage.getItem('listShipping'));
+    for(var i in shipping){
+        if(shipping[i]['code']==k){
+            document.getElementById('code').value=shipping[i]['code'];
+            document.getElementById('name').value=shipping[i]['name'];
+            document.getElementById('address').value=shipping[i]['address'];
+            document.getElementById('manager').value=shipping[i]['manager'];
+            document.getElementById('area').value=shipping[i]['area'];
+            document.getElementById('phone').value=shipping[i]['phone'];
+            document.getElementById('email').value=shipping[i]['email'];
+        }
+    }
+    
+}
 function changeAdmin(k){
     user = JSON.parse(localStorage.getItem('listUserAdmin'));
     for(var i in user){

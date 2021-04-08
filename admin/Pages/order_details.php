@@ -130,34 +130,53 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Product management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_product.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="Pages/admin_product.php">View Details <sup><b style="color: white"><?php echo $count['quan_pro']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Account user management</div>
+                                    <div class="card-body">Supply partner management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="account_user.php">View Details</a>
+                                        <a class="small text-white stretched-link" href="Pages/admin_company.php">View Details<sup><b style="color: white"><?php echo $count['quan_com']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Account admin management</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="account_admin.php">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
+                                    <div class="card-body">Account admin management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <a class="small text-white stretched-link" href="Pages/account_admin.php">View Details<sup><b style="color: white"><?php echo $count['quan_accAD']?></b></sup></a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6" >
+                                <div class="card bg-danger text-white mb-4" style="background-color: gray; border: 1px solid gray">
+                                    <div class="card-body" style="background-color: gray">Account user management</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between" style="background-color: gray">
+                                        <a class="small text-white stretched-link" href="Pages/account_user.php">View Details<sup><b style="color: white"><?php echo $count['quan_acc']?></b></sup></a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4" style="background-color: black; border: 1px solid black">
+                                    <div class="card-body" style="background-color: black;">Order management</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between" style="background-color: black;">
+                                        <a class="small text-white stretched-link" href="Pages/order_manager.php">View Details<sup><b style="color: white"><?php echo $count['quan_or']?></b></sup></a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4" style="background-color: gray; border: 1px solid white">
+                                    <div class="card-body" style="background-color: gray;">Shipping partners</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between" style="background-color: gray;">
+                                        <a class="small text-white stretched-link" href="admin_shipping.php">View Details<sup><b style="color: white"><?php echo $count['shipping']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>

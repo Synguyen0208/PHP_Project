@@ -121,16 +121,17 @@ $conn=new connect_database("php_project");
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">SUPPLY PARTNER ADMIN</h1>
+                        <h1 class="mt-4">MANAGE SHIPPING PARTNERS</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">SUPPLY PARTNER</li>
+                            <li class="breadcrumb-item active">SHIPPING PARTNERS</li>
                         </ol>
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Add shipping partners</button>  
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Product management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_product.php">View Details <sup><b style="color: white"><?php echo $count['quan_pro']?></b></sup></a>
+                                        <a class="small text-white stretched-link" href="admin_product.php">View Details<sup><b style="color: white"><?php echo $count['quan_pro']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -155,18 +156,18 @@ $conn=new connect_database("php_project");
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Supply partner management</div>
+                                    <div class="card-body">Orders management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_company.php">View Details<sup><b style="color: white"><?php echo $count['quan_com']?></b></sup></a>
+                                        <a class="small text-white stretched-link" href="order_manager.php">View Details<sup><b style="color: white"><?php echo $count['quan_or']?></b></sup> </a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-danger text-white mb-4" style="background-color: black; border: 1px solid black">
-                                    <div class="card-body" style="background-color: black;">Shipping partners</div>
+                                    <div class="card-body" style="background-color: black;">Supply partner management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between" style="background-color: black;">
-                                        <a class="small text-white stretched-link" href="admin_shipping.php">View Details<sup><b style="color: white"><?php echo $count['shipping']?></b></sup></a>
+                                        <a class="small text-white stretched-link" href="admin_company.php">View Details<sup><b style="color: white"><?php echo $count['quan_or']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -182,58 +183,48 @@ $conn=new connect_database("php_project");
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+                                                <th>Code</th>
+                                                <th>Name company</th>
+                                                <th>Address</th>
                                                 <th>Phone</th>
                                                 <th>Email</th>
-                                                <th>Customer</th>
-                                                <th>Address</th>
-                                                <th>Order date</th>
-                                                <th>Order status</th>
-                                                <th>Expected delivery date</th>
-                                                <th>Shipping company</th>
-                                                <th>Phone shipping company</th>
-                                                <th>Product money</th>
-                                                <th>Transport fee</th>
-                                                <th>Total money</th>
+                                                <th>Area</th>
+                                                <th>Manager</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
+                                                <th>Code</th>
+                                                <th>Name company</th>
+                                                <th>Address</th>
                                                 <th>Phone</th>
                                                 <th>Email</th>
-                                                <th>Customer</th>
-                                                <th>Address</th>
-                                                <th>Order date</th>
-                                                <th>Order status</th>
-                                                <th>Expected delivery date</th>
-                                                <th>Shipping company</th>
-                                                <th>Phone shipping company</th>
-                                                <th>Product money</th>
-                                                <th>Transport fee</th>
-                                                <th>Total money</th>
+                                                <th>Area</th>
+                                                <th>Manager</th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
                                         <?php 
                                             
-                                            $result = $GLOBALS['conn']->select(" o.id, u.name, u.address, a.phone, a.email, o.date_order, o.EDD, os.status,sh.name as ship, sh.phone as phone_ship, o.money, o.ship_money, o.total_money  FROM
-                                            ((`customer` u INNER JOIN account a on a.id=u.id_account)
-                                            INNER JOIN orders o on o.id_cus=a.id
-                                            INNER JOIN order_status os ON o.id_status=os.id
-                                             INNER JOIN shipping_company sh on o.id_ship=sh.code
-                                            )");
-                                            $arr=array(); 
+                                            $result = $GLOBALS['conn']->select("* from shipping_company");
+                                            $arr=array();
                                             
                                             while ($row = mysqli_fetch_array($result)) {
-                                               
+                                                $arr[]=array(
+                                                    'code'=>$row['code'],
+                                                    'name'=>$row['name'],
+                                                    'address'=>$row['address'],
+                                                    'phone'=>$row['phone'],
+                                                    'email'=>$row['email'],
+                                                    'area'=>$row['area'],
+                                                    'manager'=>$row['manager']
+                                                );
                                         ?>
                                         <tr>
                                             <td>
-                                                <?php echo $row['phone']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['email']?>
+                                                <?php echo $row['code']?>
                                             </td>
                                             <td>
                                                 <?php echo $row['name']?>
@@ -242,39 +233,27 @@ $conn=new connect_database("php_project");
                                                 <?php echo $row['address']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['date_order']?>
+                                                <?php echo $row['phone']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['status']?>
-                                                <button data-toggle="modal" onclick="document.getElementById('update').value=<?php echo $row['id']?>" data-target="#myModal" >Update</button>
+                                                <?php echo $row['email']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['EDD']?>
+                                                <?php echo $row['area']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['ship']?>
+                                                <?php echo $row['manager']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['phone_ship']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['money']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['ship_money']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['total_money']?>
-                                            </td>
-                                            <td>
-                                                <a class="" href="order_details.php?id=<?php echo $row['id']?>">View details</a>
+                                                <button data-toggle="modal" name="add"  data-target="#myModal1" onclick="changeShipping(<?php echo $row['code']?>)"><img src="https://taiwebs.com/upload/icons/systemmodeler.png" style="width: 2rem" alt=""></button>
+                                                <form action="" method="post">
                                             </td>
                                             
                                         </tr>
                                         
                                         <?php }
-                                        echo "<script> var product =".json_encode($arr)."
-                                        localStorage.setItem('listProduct', JSON.stringify(product))</script>";
+                                        echo "<script> var shipping =".json_encode($arr)."
+                                        localStorage.setItem('listShipping', JSON.stringify(shipping))</script>";
                                         ?>
                                         </tbody>
                                     </table>
@@ -297,31 +276,73 @@ $conn=new connect_database("php_project");
                 </footer>
             </div>
             </div>
-    <div id="myModal" class="modal">
+
+            <div id="myModal" class="modal">
         <div class="modal-content">
             <form method="POST" id="form" action="" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1>Update status order</h1>
+                    <h1>Add shipping partner</h1>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <label for="">Choose status order</label><br>
-                                <select name="status" id="">
-                                    <?php 
-                                    $result=$GLOBALS['conn']->select(" id, status from order_status");
-                                    while ($row = mysqli_fetch_array($result)) {?>
-                                    <option value="<?php echo $row['id']?>"><?php echo $row['status']?></option>
-                                    <?php }?>
-                                </select>
+                                <label for="">Code</label><br>
+                                <input type="text" name="code" placeholder="Input code" required><br>
+                                <label for="">Name company</label><br>
+                                <input type="text" name="name" placeholder="Name company" required><br>
+                                <label for="">Address</label><br>
+                                <input type="text" name="address" placeholder="Address company" required><br>
+                                <label for="">Phone</label>
+                                <input type="phone" name="phone" id="" placeholder="Phone" required><br>
+                                <label for="">Email</label><br>
+                                <input type="email" name="email" placeholder="Email"><br>
+                                <label for="">Shipping area</label><br>
+                                <input type="text" name="area" placeholder="Shipping area" required><br>
+                                <label for="">Manager</label>
+                                <input type="text" name="manager" id="" placeholder="Manager" required><br>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="update" value="" class="btn btn-primary btn-lg" name="Update">
-                        Update
+                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="addShipping">
+                        Add
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <form method="POST" id="form" action="" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h1>Edit shipping partner</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <input type="number" id="code" name="code" readonly="true"><br>
+                                <label for="">Name</label><br>
+                                <input type="text" name="name" id="name" placeholder="Name" required><br>
+                                <label for="">Address</label><br>
+                                <input type="text" name="address" id="address" placeholder="Address" required><br>
+                                <label for="">Phone</label>
+                                <input type="phone" name="phone" id="phone" placeholder="Phone" required><br>
+                                <label for="">Email</label><br>
+                                <input type="email" name="email" id="email" placeholder="Email"><br>
+                                <label for="">Shipping area</label>
+                                <input type="text" name="area" id="area" placeholder="Shipping area" required><br>
+                                <label for="">Manager</label><br>
+                                <input type="text" name="manager" id="manager" placeholder="Manager" required><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="add" value="" class="btn btn-primary btn-lg" name="editShipping">
+                        Edit
                     </button>
                 </div>
             </form>

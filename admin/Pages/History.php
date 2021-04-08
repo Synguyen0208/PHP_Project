@@ -56,7 +56,7 @@ $conn=new connect_database("php_project");
                 </li>
             </ul>
         </nav>
-        <div id="layoutSidenav">
+        <div id="layoutSidenav" >
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
@@ -126,139 +126,46 @@ $conn=new connect_database("php_project");
                     </div>
                 </nav>
             </div>
-            <div id="layoutSidenav_content">
-                <main>
+            <div id="layoutSidenav_content" style="background-color: currentcolor;">
+                <main >
                     <div class="container-fluid">
-                        <h1 class="mt-4">USER ACCOUNT ADMIN</h1>
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Product management</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_product.php">View Details<sup><b style="color: white"><?php echo $count['quan_pro']?></b></sup></a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Supply partner management</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_company.php">View Details<sup><b style="color: white"><?php echo $count['quan_com']?></b></sup></a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Account admin management</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="account_admin.php">View Details<sup><b style="color: white"><?php echo $count['quan_accAD']?></b></sup></a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Order management</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="order_manager.php">View Details<sup><b style="color: white"><?php echo $count['quan_or']?></b></sup></a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4" style="background-color: black; border: 1px solid black">
-                                    <div class="card-body" style="background-color: black;">Shipping partners</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between" style="background-color: black;">
-                                        <a class="small text-white stretched-link" href="admin_shipping.php">View Details<sup><b style="color: white"><?php echo $count['shipping']?></b></sup></a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table mr-1"></i>
-                                DataTable product
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
+                        <h1 class="mt-4" style="color: white">Operation history</h1>
+                             <div class="card mb-4">
+                            
+                            <div class="card-body" style="background-color: gray;">
+                                <div class="table-responsive" >
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Phone</th>
-                                                <th>Email</th>
-                                                <th>User name</th>
-                                                <th>Password</th>
-                                                <th>Status</th>
-                                                
+                                                <th>Actived</th>
+                                                <th>Time</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Phone</th>
-                                                <th>Email</th>
-                                                <th>User name</th>
-                                                <th>Password</th>
-                                                <th>Status</th>
-                                                
+                                            <th>Actived</th>
+                                                <th>Time</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
                                         <?php 
                                             
-                                            $result = $GLOBALS['conn']->select("* from account");
+                                            $result = $GLOBALS['conn']->select("* from history");
                                             $arr=array();
                                             
                                             while ($row = mysqli_fetch_array($result)) {
-                                                $arr[]=array(
-                                                    'id'=>$row['id'],
-                                                    'phone'=>$row['phone'],
-                                                    'user'=>$row['user'],
-                                                    'email'=>$row['email'],
-                                                    'password'=>$row['password'],
-                                                    'status'=>$row['status']
-                                                );
+                                                
                                         ?>
                                         <tr>
                                             <td>
-                                                <?php echo $row['id']?>
+                                                <?php echo $row['history']?>
                                             </td>
                                             <td>
-                                                <?php echo $row['phone']?>
+                                                <?php echo $row['time']?>
                                             </td>
-                                            <td>
-                                                <?php echo $row['email']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['user']?>
-                                            </td>
-                                            <td>
-                                                <?php echo $row['password']?><br>
-                                                
-                                            </td>
-                                            <td>
-                                                <form action="" method="post">
-                                                    <input style="display: none" type="submit" name="setStatusAcc" id="<?php echo $row['id']?>" value="">
-                                                </form>
-                                                <label class="switch">
-                                                
-                                                    <label for="submit"></label>
-                                                    <input id="check<?php echo $row['id']?>" onclick="setStatus(<?php echo $row['id']?>)" type="checkbox" <?php if($row['status']=="accept"){?> checked<?php }?>>
-                                                    <span class="slider round"></span>
-                                                </label>
-                                                
-                                            </td>
-                                           
                                             
-                                        </tr>
                                         
                                         <?php }
-                                        echo "<script> var user_admin =".json_encode($arr)."
-                                        localStorage.setItem('listUserAdmin', JSON.stringify(user_admin))</script>";
                                         ?>
                                         </tbody>
                                     </table>
@@ -267,18 +174,7 @@ $conn=new connect_database("php_project");
                         </div>
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                
             </div>
             </div>
 
@@ -286,30 +182,27 @@ $conn=new connect_database("php_project");
         <div class="modal-content">
             <form method="POST" id="form" action="" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1>Add supply partner</h1>
+                    <h1>Add account admin</h1>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <label for="">Name company</label><br>
-                                <input type="text" name="name" placeholder="Nhập tên công ty" required><br>
-                                <label for="">Address</label><br>
-                                <input type="text" name="address" placeholder="Nhập địa chỉ công ty" required><br>
-                                <label for="">Manager</label><br>
-                                <input type="text" name="manager" placeholder="Giám đốc công ty" required><br>
-                                <label for="">License number</label>
-                                <input type="text" name="license" id="" placeholder="Mã số thuế" required><br>
-                                <label for="">Phone</label>
-                                <input type="phone" name="phone" id="" placeholder="Số điện thoại" required><br>
                                 <label for="">Email</label><br>
-                                <input type="email" name="email" placeholder="Email"><br>
+                                <input type="email" name="email" placeholder="Input email admin" required><br>
+                                <label for="">Password</label><br>
+                                <input type="password" name="password" placeholder="Input password" required><br>
+                                <label for="">Status</label><br>
+                                <select name="status" id="">
+                                    <option value="accept">Accept</option>
+                                    <option value="Not Accept">Not Accept</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="addCom">
+                    <button type="submit" id="add" value="add" class="btn btn-primary btn-lg" name="addAccAD">
                         Add
                     </button>
                 </div>

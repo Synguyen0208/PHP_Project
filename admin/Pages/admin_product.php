@@ -165,6 +165,15 @@ $conn=new connect_database("php_project");
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4" style="background-color: black; border: 1px solid black">
+                                    <div class="card-body" style="background-color: black;">Shipping partners</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between" style="background-color: black;">
+                                        <a class="small text-white stretched-link" href="admin_shipping.php">View Details<sup><b style="color: white"><?php echo $count['shipping']?></b></sup></a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">

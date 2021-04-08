@@ -131,7 +131,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Product management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin_product.php">View Details<sup><b style="color: white"><?php echo $_SESSION['count']['quan_pro']?></b></sup></a>
+                                        <a class="small text-white stretched-link" href="admin_product.php">View Details<sup><b style="color: white"><?php echo $count['quan_pro']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-warning text-white mb-4">
                                     <div class="card-body">Account user management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="account_user.php">View Details<sup><b style="color: white"><?php echo $_SESSION['count']['quan_acc']?></b></sup></a>
+                                        <a class="small text-white stretched-link" href="account_user.php">View Details<sup><b style="color: white"><?php echo $count['quan_acc']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -149,7 +149,7 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-success text-white mb-4">
                                     <div class="card-body">Account admin management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="account_admin.php">View Details<sup><b style="color: white"><?php echo $_SESSION['count']['quan_accAD']?></b></sup></a>
+                                        <a class="small text-white stretched-link" href="account_admin.php">View Details<sup><b style="color: white"><?php echo $count['quan_accAD']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -158,7 +158,16 @@ $conn=new connect_database("php_project");
                                 <div class="card bg-danger text-white mb-4">
                                     <div class="card-body">Orders management</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details<sup><b style="color: white"><?php echo $_SESSION['count']['quan_or']?></b></sup> </a>
+                                        <a class="small text-white stretched-link" href="order_manager.php">View Details<sup><b style="color: white"><?php echo $count['quan_or']?></b></sup> </a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4" style="background-color: black; border: 1px solid black">
+                                    <div class="card-body" style="background-color: black;">Shipping partners</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between" style="background-color: black;">
+                                        <a class="small text-white stretched-link" href="admin_shipping.php">View Details<sup><b style="color: white"><?php echo $count['shipping']?></b></sup></a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
