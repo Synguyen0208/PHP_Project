@@ -223,7 +223,7 @@ $n=$row1['n'];
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-								
+									<th></th>
                                     <th>ITEM</th>
                                     <th>DESCRIPTION</th>
                                     <th>PRICE</th>
@@ -260,7 +260,10 @@ $n=$row1['n'];
 												$allTotal += $total;
 												?>
 								<tr>
-								
+								<td>
+								<input type="checkbox" onclick="if(document.getElementById('check<?php echo $row['id']?>').checked=true){
+
+								}" name="" id="check<?php echo $row['id']?>"></td>
 								<td>
 								<img src='<?php echo $image?>' height='200' width='250' >
 								</td>
@@ -272,9 +275,11 @@ $n=$row1['n'];
 								<input id="price<?php echo $row['id']?>" value=<?php echo $price?> readonly=true style="width: 6rem">
 								</td>
 								<td>
-									<!-- <button onclick="minute(<?php echo $row['id']?>)">-</button> -->
-									<input type='number' min="0" style="width:5rem; text-align: center" readonly=true id="quantity<?php echo $row['id']?>"  value='<?php echo $quantity?>'>
-									<!-- <button onclick="plus(<?php echo $row['id']?>)">+</button> -->
+									<form action="" method="post">
+										<button name="cartAdd" value="<?php echo $row['id']?>" onclick="minute(<?php echo $row['id']?>)">-</button>
+										<input type='number' min="0" name="quantity" style="width:5rem; text-align: center" readonly=true id="quantity<?php echo $row['id']?>"  value='<?php echo $quantity?>'>
+										<button name="cartAdd" value="<?php echo $row['id']?>" onclick="plus(<?php echo $row['id']?>)">+</button>
+									</form>
 								</td>
 								<td >
 								<span id="total<?php echo $row['id']?>" value='<?php echo $total?>'><?php echo number_format($total,0,',','.');?></span>
@@ -297,6 +302,7 @@ $n=$row1['n'];
 							</table>
 						</div>
 				</tbody>
+				<input style="float: right" type="number" name="" id="">
 		</div>
 		
 	
@@ -304,67 +310,6 @@ $n=$row1['n'];
 
 	<section id="do_action">
 		<div class="container">
-			<div class="heading">
-			<p></p>
-			<br>
-				<h3>What would you like to do next?</h3>
-				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="chose_area">
-						<ul class="user_option">
-							<li>
-								<input type="checkbox">
-								<label>Use Coupon Code</label>
-							</li>
-							<li>
-								<input type="checkbox">
-								<label>Use Gift Voucher</label>
-							</li>
-							<li>
-								<input type="checkbox">
-								<label>Estimate Shipping & Taxes</label>
-							</li>
-						</ul>
-						<ul class="user_info">
-							<li class="single_field">
-								<label>Country:</label>
-								<select>
-									<option>United States</option>
-									<option>Bangladesh</option>
-									<option>UK</option>
-									<option>India</option>
-									<option>Pakistan</option>
-									<option>Ucrane</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
-								
-							</li>
-							<li class="single_field">
-								<label>Region / State:</label>
-								<select>
-									<option>Select</option>
-									<option>Dhaka</option>
-									<option>London</option>
-									<option>Dillih</option>
-									<option>Lahore</option>
-									<option>Alaska</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
-							
-							</li>
-							<li class="single_field zip-field">
-								<label>Zip Code:</label>
-								<input type="text">
-							</li>
-						</ul>
-						<a class="btn btn-default update" href="">Get Quotes</a>
-						<a class="btn btn-default check_out" href="">Continue</a>
-					</div>
-				</div>
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>

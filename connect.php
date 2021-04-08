@@ -15,4 +15,10 @@ $_SESSION['id']=8;
         $id=$_POST['delete'];
         mysqli_query($conn, "delete from cart where id=$id");
     }
+    if(array_key_exists('cartAdd', $_POST)){
+        $id=$_POST['cartAdd'];
+        $quantity=$_POST['quantity'];
+        
+        mysqli_query($conn, "update cart set quantity=$quantity where id=$id");
+    }
 ?>

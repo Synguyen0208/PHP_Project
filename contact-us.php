@@ -1,3 +1,14 @@
+<?php
+	session_start();
+	require_once('connect.php');
+$id_cus=$_SESSION['id'];
+$sql3="select count(id) as n from cart where id_cus=$id_cus";
+$result=mysqli_query($conn, $sql3);
+$row1=mysqli_fetch_assoc($result);
+$n=$row1['n'];
+?> 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,7 +100,7 @@
 								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.php"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <sup style="color: blue; font-size: 1rem"><b><?php echo $n;?></b></sup></a></li>
 								<li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>

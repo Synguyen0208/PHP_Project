@@ -5,6 +5,7 @@ function minute(i){
 
     document.getElementById('quantity'+i).value=n;
     document.getElementById('total'+i).innerHTML=document.getElementById('price'+i).value*document.getElementById('quantity'+i).value;
+    document.getElementById('cartAdd1').click();
     }
     
 }
@@ -14,4 +15,5 @@ function plus(i){
 
     document.getElementById('quantity'+i).value=n;
     document.getElementById('total'+i).innerHTML=document.getElementById('price'+i).value*document.getElementById('quantity'+i).value;
+    document.getElementById('cartAdd1').click();
 }
