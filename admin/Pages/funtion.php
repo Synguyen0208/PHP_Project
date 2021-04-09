@@ -56,7 +56,7 @@ class connect_database{
 
 
 $conn=new connect_database("php_project");
-$sql=" count(id) as quan_pro, (SELECT count(id) from account_admin) as quan_accAD, (SELECT COUNT(id) FROM company) as quan_com, (SELECT COUNT(id) FROM account) as quan_acc, (SELECT COUNT(id)  from orders) as quan_or, (SELECT count(code) from shipping_company) as shipping from product";
+$sql=" count(id) as quan_pro, (SELECT count(id) from account_admin) as quan_accAD,(SELECT count(id) from notification where status='new') as notifi, (SELECT COUNT(id) FROM company) as quan_com, (SELECT COUNT(id) FROM account) as quan_acc, (SELECT COUNT(id)  from orders) as quan_or, (SELECT count(code) from shipping_company) as shipping from product";
 $result=$conn->select($sql);
 $count=mysqli_fetch_array($result);
 //PRODUCT

@@ -74,7 +74,7 @@ if(array_key_exists('logout', $_POST)){
                                 </nav>
                             </div>
                             <a class="nav-link" href="Pages/notification.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-bell"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-bell"></i><sup style="color:yellow; font-size:1rem"><?php echo $count['notifi']?></sup></div>
                                 Notification
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
