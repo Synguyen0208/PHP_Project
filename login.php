@@ -220,6 +220,7 @@ if (isset($_POST['login']))
 							<input type="password" placeholder="Password" name="pass"/>
 							<input type="tel" placeholder="Phone number" name="phone" /><br>
 							<input type="text" placeholder="Email" name="email" /><br>
+							<input type="text" placeholder="Address" name="address" /><br>
 								<?php
 								$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
  

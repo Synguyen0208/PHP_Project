@@ -17,4 +17,20 @@ if(array_key_exists('cartAdd', $_POST)){
     
     mysqli_query($conn, "update cart set quantity=$quantity where id=$id");
 }
+if(array_key_exists('addtocart', $_POST)){
+    if(isset($_SESSION['id'])){
+        echo $_SESSION['id'];
+        $id_pro=$_POST['addtocart'];
+        //echo $id_pro;
+        $id_cus=$_SESSION['id'];
+        $sql="insert into cart(id_cus, id_pro, quantity) values ($id_cus, $id_pro, 1)";
+        
+        $result=mysqli_query($conn, $sql);
+        
+        if(!$result){
+            $sql1="update cart set quantity=quantity+1 where id_cus=$id_cus and id_pro=$id_pro";
+            mysqli_query($conn, $sql1);
+        }	
+    }
+}
 ?>

@@ -1,8 +1,3 @@
-<?php /*echo $_GET['id'];
-$a=explode(',', $_GET['id']);
-echo $a['0'];
-echo $a['1'];*/
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,27 +34,72 @@ echo $a['1'];*/
 			}
 			require "connect.php";
 			connect_db();
+			include 'sendemail_auto/library.php';
+			require 'sendemail_auto/vendor/autoload.php';
+			use PHPMailer\PHPMailer\PHPMailer;
+			use PHPMailer\PHPMailer\Exception;
+			$mail = new PHPMailer(true);
 			require "oop.php";
 			$dt = new database;
 			include "cartfunction.php";
-			if(array_key_exists('ship', $_POST)){		
+			if(array_key_exists('datee', $_POST)){
+				$date = $_POST['datee'];
+				$_SESSION ['date'] = $date;
+			}
+			if(array_key_exists('ship', $_POST)){	
 				$code= $_POST['ship'];
 				$_SESSION ['code'] = $code;
-				//echo $code;
 				$sql = "SELECT ship_fee FROM `shipping_company` WHERE code = {$code}";
 				$query = mysqli_query($conn, $sql);
 				$row = mysqli_fetch_array($query);
 				$_SESSION['ship'] = $row['ship_fee'];
 			}
 			if(isset($_POST['order'])){
-				
-				//echo $_POST['fee'].'<br>';
-				//echo $_SESSION['total'] ;
-				$total = $_POST['fee'] + $_POST['fee'];
-				echo $total ;
-				$sql = "INSERT into `orders` (`id_cus`, `id_ship`, `id_status`, `money`, `ship_money`, `total_money`)VALUES({$_SESSION['id']}, {$_SESSION ['code']}, 'sending', {$_SESSION['total']}, {$_POST['fee']}, {$total});";
+				$fee =  $_SESSION['ship'];
+				$money = $_SESSION['total'];	
+				$total = $fee + $money ;
+				$id = $_SESSION['id'];
+				$name = $_SESSION['username'];
+				$address = $_SESSION['address'];
+				$email = $_SESSION['email'];
+				echo $email;
+				$phone = $_SESSION['phone'];
+				$code = $_SESSION ['code'];
+				$date = $_SESSION ['date'];
+				echo $date;
+				$sql = " INSERT into `orders` (`id_cus`, `EDD`, `id_ship`, `money`, `ship_money`, `total_money`) values ({$id},'{$date}', {$code}, {$money}, {$fee}, {$total} );";
 				$query = mysqli_query($conn, $sql);
-			}
+				if ($query)
+					{
+						$mail->CharSet = "UTF-8";
+						$mail->SMTPDebug = 0;                                 // Enable verbose debug output
+						$mail->isSMTP();                                      // Set mailer to use SMTP
+						$mail->Host = SMTP_HOST;  // Specify main and backup SMTP servers
+						$mail->SMTPAuth = true;                               // Enable SMTP authentication
+						$mail->Username = SMTP_UNAME;                 // SMTP username
+						$mail->Password = SMTP_PWORD;                           // SMTP password
+						$mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+						$mail->Port = SMTP_PORT;                                    // TCP port to connect to
+						//Recipients
+						$mail->setFrom(SMTP_UNAME, "Shop Khưa Sỹ Lương");
+						$mail->addAddress($email, 'Tên người nhận');     // Add a recipient | name is option
+						$mail->addReplyTo(SMTP_UNAME, 'Tên người trả lời');                 
+						$mail->isHTML(true);                                  // Set email format to HTML
+						$mail->Subject = "Đơn đặt hàng của bạn từ Shop Khưa Sỹ Lương";
+						$mail->Body = "Đơn đặt hàng của bạn: ".$name."<p>Tại địa chỉ:".$address."</p><p>Tiền sản phẩm: ".$money."</p><p>Phí ship: ".$fee."</p><p>Tổng tiền: ".$total."</p><p>Định kiến ngày giao hàng : ".$date."<p>";
+						$mail->AltBody = "Chào mừng bạn đến với chúng tôi! "; //None HTML
+						$result = $mail->send();
+								
+							header('Location:checkout.php');
+							echo "Bạn đã đặt hàng thành công";
+						}
+						else{
+
+							echo $conn->error;
+							echo "An error occurred during registration. <a href='dangky.php'>Thử lại</a>";
+
+						}
+				}
 ?>
 	<?php include "header.php";?>
 
@@ -90,6 +130,9 @@ echo $a['1'];*/
 									<input type="text" style="width: ;" placeholder="Address" value="<?php echo $_SESSION['address'] ?>">
 									<label style="color:red;">Phone *</label>
 									<input type="text" placeholder="Phone" value="<?php echo $_SESSION['phone'] ?>">
+									<label style="color:red;">Prejudice day *</label>
+									<input type="date" name="datee" placeholder="Prejudice day" >
+									<button type="submit" name="nop">Save into order</button>
 								</form>
 							</div>
 						</div>

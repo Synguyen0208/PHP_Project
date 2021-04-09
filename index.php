@@ -275,8 +275,8 @@ else {
                                         <div class="overlay-content">
                                             <h2>'.$r['price'].'<sup>đ</sup></h2>
                                             <h4><b>'.$r['name'].'</b></h4>
-                                            <form method="post" action="cart.php">
-                                                <a href="cart.php?id='.$r['id'].'" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            <form method="post" action="">
+											<button name="addtocart" type="submit" value="'.$r['id'].'" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                                 <a href="product-details.php?id='.$r['id'].'" class="btn btn-default add-to-cart"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
                                             </form>
                                         </div>

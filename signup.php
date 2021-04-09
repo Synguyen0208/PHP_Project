@@ -49,8 +49,9 @@
     $password   = addslashes($_POST['pass']);
     $email  = addslashes($_POST['email']);
     $code   = addslashes($_POST['code']);
+    $address = addslashes($_POST['address']);
     //Kiểm tra người dùng đã nhập liệu đầy đủ chưa
-    if (!$username || !$password || !$phone|| !$code )
+    if (!$username || !$password || !$phone|| !$code||!$address )
     {
         echo "Please enter full information. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
@@ -113,7 +114,7 @@
                     $mail->addReplyTo(SMTP_UNAME, 'Tên người trả lời');                 
                     $mail->isHTML(true);                                  // Set email format to HTML
                     $mail->Subject = "Đăng kí tài khoản thành công";
-                    $mail->Body = $username." ".$email." ".$password." ".$phone;
+                    $mail->Body = $username." ".$email." ".$password." ".$phone." ".$address;
                     $mail->AltBody = "Chào mừng bạn đến với chúng tôi! "; //None HTML
                     $result = $mail->send();
 			

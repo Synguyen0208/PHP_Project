@@ -34,6 +34,7 @@ else {
 	}
 	require 'connect.php';
 	connect_db();
+	include "cartfunction.php";
 	if(isset($_REQUEST['search'])){
    
 		$searchq = addslashes($_POST['search']);
@@ -70,8 +71,10 @@ else {
 										<div class="overlay-content">
 											<h2>'.$price.'<sup>đ</sup></h2>
 											<h4><b>'.$name.'</b></h4>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<form action="" method="post">
+											<button name="addtocart" type="submit" value="'.$id.'" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
 											<a href="product-details.php?id='.$id.'" class="btn btn-default add-to-cart"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
+											</form>
 										</div>
 									</div>
 								</div>

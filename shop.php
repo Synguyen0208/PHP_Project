@@ -12,27 +12,7 @@ require 'connect.php';
 $dt = new database;
 
 connect_db();
-if(array_key_exists('addtocart', $_POST)){
-	if(isset($_SESSION['id'])){
-		echo $_SESSION['id'];
-		$id_pro=$_POST['addtocart'];
-		//echo $id_pro;
-		$id_cus=$_SESSION['id'];
-		$sql="insert into cart(id_cus, id_pro, quantity) values ($id_cus, $id_pro, 1)";
-		
-		$result=mysqli_query($conn, $sql);
-		
-		if(!$result){
-			$sql1="update cart set quantity=quantity+1 where id_cus=$id_cus and id_pro=$id_pro";
-			mysqli_query($conn, $sql1);
-		}	
-	}
-}
-	$id_cus=$_SESSION['id'];
-	$sql3="select count(id) as n from cart where id_cus=$id_cus";
-	$result=mysqli_query($conn, $sql3);
-	$row1=mysqli_fetch_assoc($result);						
-	$n=$row1['n'];
+include "cartfunction.php";
 
 ?>
 <!DOCTYPE html>
