@@ -7,7 +7,9 @@ if(array_key_exists('logout', $_POST)){
     unset($_SESSION['user_admin']);
     header("location: Pages/login.php");
 }
+
 $conn=new connect_database("php_project");
+$conn->execute("update set status='old' from notification");
 // error_reporting(0);
 ?>
 <!DOCTYPE html>
@@ -78,10 +80,9 @@ $conn=new connect_database("php_project");
                                     <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            <a class="nav-link" href="notification.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bell"></i></div>
+                                Notification
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
@@ -109,10 +110,10 @@ $conn=new connect_database("php_project");
                                     </div>
                                 </nav>
                             </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
+                            <div class="sb-sidenav-menu-heading">History</div>
+                            <a class="nav-link" href="History.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-laptop-medical"></i></div>
+                                History
                             </a>
                             <a class="nav-link" href="tables.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
